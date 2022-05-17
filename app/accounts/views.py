@@ -31,7 +31,13 @@ def add_users(request):
         user.save()
         return Response(user.data)
     else:
-        return Response(status=status.HTTP_404_NOT_FOUND)
+        status_code = 400
+        message = "The request is not valid."
+        # You should log this error because this usually means your front end has a bug.
+        # do you whant to explain anything?
+        explanation = "The server could not accept your request because it was not valid. Please try again and if the error keeps happening get in contact with us."
+
+        return JsonResponse({'message':message,'explanation':explanation}, status=status_code)
 
 @api_view(['GET'])
 def get_users(request):
