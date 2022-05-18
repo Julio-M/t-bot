@@ -13,8 +13,8 @@ function Navbar (props) {
     return (
         <>
             {user&&<Link to='/'>Home</Link>}
-            <Link to='/login'>Login</Link>
-            <Link to='/signup'>Signup</Link>
+            {!user&&<Link to='/login'>Login</Link>}
+            {!user&&<Link to='/signup'>Signup</Link>}
             {user&&<button onClick={handleClick}>Logout</button>}
             {user&&<p>Hello {user.username}</p>}
         </>
