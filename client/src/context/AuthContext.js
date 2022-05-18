@@ -15,53 +15,90 @@ export function AuthProvider ({children}) {
   const [authToken,setAuthToken] = useState(()=>myToken)
   const [errors, setErrors] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [load,setLoad] = useState(true)
 
-const loginUser = (data) => {
-    fetch(`http://localhost:8000/api/token/`, {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-            Accept: "application/json"
-        },
-        body: JSON.stringify(data)
+  const updateToken = () => {
+   fetch(`http://localhost:8000/api/token/refresh/`, {
+       method: "POST",
+       headers: {
+           "Content-Type": "application/json",
+           Accept: "application/json"
+       },
+       body: JSON.stringify({
+           refresh: authToken.refresh
+       })
+   })
+   .then((r) => {
+    if (r.ok) {
+      console.log(r)
+      r.json()
+      .then((data) => {
+        setAuthToken(data)
+        setUser(jwt_decode(data.access))
+        localStorage.setItem('authTokens', JSON.stringify(data))
+      })
+    } else {
+      logoutUser()
+    }
+})
+  }
+
+  const loginUser = (data) => {
+      fetch(`http://localhost:8000/api/token/`, {
+          method: "POST",
+          headers: {
+              "Content-Type": "application/json",
+              Accept: "application/json"
+          },
+          body: JSON.stringify(data)
+      })
+      .then((r) => {
+        if (r.ok) {
+          console.log(r)
+          r.json()
+          .then((data) => {
+            setAuthToken(data)
+            setUser(jwt_decode(data.access))
+            localStorage.setItem('authTokens', JSON.stringify(data))
+          })
+          .then(()=>navigate('/'))
+          .then(()=>setIsLoading(false))
+        } else {
+          r.json()
+          .then(err=>setErrors([...errors,err.detail]))
+          .then(()=>setIsLoading(false))
+        }
     })
-    .then((r) => {
-      if (r.ok) {
-        console.log(r)
-        r.json()
-        .then((data) => {
-          setAuthToken(data)
-          setUser(jwt_decode(data.access))
-          localStorage.setItem('authTokens', JSON.stringify(data))
-        })
-        .then(()=>setIsLoading(false))
-        .then(navigate('/'))
-      } else {
-        r.json()
-        .then(err=>setErrors([...errors,err.detail]))
-        .then(()=>setIsLoading(false))
-      }
-  })
 
-   }
+    }
 
-  const logoutUser = () => {
-    setAuthToken(null)
-    setUser(null)
-    localStorage.removeItem('authTokens')
-    navigate('/login')
-  }
+    const logoutUser = () => {
+      setAuthToken(null)
+      setUser(null)
+      localStorage.removeItem('authTokens')
+      navigate('/login')
+    }
 
 
-  let contextData = {
-    loginUser:loginUser,
-    logoutUser:logoutUser,
-    errors:errors,
-    setErrors:setErrors,
-    isLoading:isLoading,
-    setIsLoading:setIsLoading,
-    user:user,
-  }
+    let contextData = {
+      loginUser:loginUser,
+      logoutUser:logoutUser,
+      errors:errors,
+      setErrors:setErrors,
+      isLoading:isLoading,
+      setIsLoading:setIsLoading,
+      user:user,
+    }
+
+    useEffect( () => {
+      console.log('loading')
+      let interval = setInterval(() => {
+        if(authToken){
+          updateToken()
+        }
+      }, 240000)
+      return () => clearInterval(interval)
+    },[authToken,load])
 
     return (
         <AuthContext.Provider value={contextData}>
