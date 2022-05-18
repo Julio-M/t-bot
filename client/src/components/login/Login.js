@@ -1,35 +1,34 @@
-import React, { useState } from "react";
+import React, { useState,useContext } from "react";
 import { Button } from "@mui/material";
 import './login.css'
 import { useNavigate } from "react-router-dom";
+import AuthContext from "../../context/AuthContext";
 
 function Login () {
-    let navigate = useNavigate();
+    let {loginUser,errors,setErrors,isLoading,setIsLoading} = useContext(AuthContext)
 
     const [userForm, setUserForm] = useState({
         username:'',
         password:''
     })
 
-    const [errors, setErrors] = useState([]);
-    const [isLoading, setIsLoading] = useState(false);
 
-    const postDataUser = () => {
-        fetch(`http://127.0.0.1:8000/auth/`, {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify(userForm),
-            }).then((r) => {
-              if (r.ok) {
-                r.json().then((data) => console.log(data.token)).then(()=>setIsLoading(false))
-              } else {
-                console.log('None')
-                r.json().then(err=>setErrors(err.non_field_errors)).then(()=>setIsLoading(false))
-              }
-          })
-    }
+    // const postDataUser = () => {
+    //     fetch(`http://127.0.0.1:8000/auth/`, {
+    //         method: "POST",
+    //         headers: {
+    //           "Content-Type": "application/json",
+    //         },
+    //         body: JSON.stringify(userForm),
+    //         }).then((r) => {
+    //           if (r.ok) {
+    //             r.json().then((data) => console.log(data.token)).then(()=>setIsLoading(false)).then(navigate('/login'))
+    //           } else {
+    //             console.log('None')
+    //             r.json().then(err=>setErrors(err.non_field_errors)).then(()=>setIsLoading(false))
+    //           }
+    //       })
+    // }
 
     const {username,password} = userForm
 
@@ -43,8 +42,9 @@ function Login () {
     const handleSubmit = (e) => {
         e.preventDefault()
         setIsLoading(true)
-        postDataUser()
+        // postDataUser()
         setErrors([])
+        loginUser(userForm)
     }
 
 

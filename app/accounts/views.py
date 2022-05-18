@@ -6,6 +6,22 @@ from .serializers import UserSerializer
 from rest_framework import serializers
 from rest_framework import status
 from django.http import JsonResponse
+from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
+from rest_framework_simplejwt.views import TokenObtainPairView
+
+class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
+    @classmethod
+    def get_token(cls, user):
+        token = super().get_token(user)
+
+        # Add custom claims
+        token['username'] = user.username
+        # ...
+
+        return token
+
+class MyTokenObtainPairView(TokenObtainPairView):
+    serializer_class = MyTokenObtainPairSerializer
 
 # Create your views here.
 @api_view(['GET'])
@@ -14,7 +30,10 @@ def ApiOverview(request):
         'all_users': '/',
         'Add': '/create',
         'Update': '/update/pk',
-        'Delete': '/user/pk/delete'
+        'Delete': '/user/pk/delete',
+        'Token': '/api/token',
+        'Refresh_token': '/api/token/refresh'
+
     }
   
     return Response(api_urls)
@@ -35,7 +54,7 @@ def add_users(request):
         message = "The request is not valid."
         # You should log this error because this usually means your front end has a bug.
         # do you whant to explain anything?
-        explanation = "The server could not accept your request because it was not valid. Please try again and if the error keeps happening get in contact with us."
+        explanation = "The server could not accept your request because it was not valid. Please try again!"
 
         return JsonResponse({'message':message,'explanation':explanation}, status=status_code)
 

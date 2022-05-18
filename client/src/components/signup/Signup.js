@@ -10,7 +10,6 @@ function SignupUser () {
     username:"",
     email:"",
     password:"",
-    password_confirmation:""
   })
 
   const [errors, setErrors] = useState([]);
@@ -32,7 +31,7 @@ function SignupUser () {
 
   //post user info
   const postDataUser = () => {
-   fetch(`/signup`, {
+   fetch(`http://127.0.0.1:8000/api/v1/create/users/`, {
        method: "POST",
        headers: {
            "Content-Type": "application/json",
@@ -41,48 +40,30 @@ function SignupUser () {
        body: JSON.stringify(userForm)
    })
    .then( res => {
+     console.log(res)
     if (res.ok){
-      res.json().then((user)=> onLogin(user)).then(navigate('/'))
+      res.json().then((data)=> console.log(data))
     } else
     {
-      res.json().then((err)=> setErrors(err.errors))
+      res.json().then((err)=> console.log(err))
     }
    })
   }
   //post user info end
 
-  //post freelancer info start
-
-  const postDataFreelancer = () => {
-    fetch(`/signup-freelancer`, {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-            Accept: "application/json"
-        },
-        body: JSON.stringify(userForm)
-    })
-    .then( res => {
-     if (res.ok){
-       res.json().then((user)=> console.log(user))
-     } else
-     {
-       res.json().then((err)=> setErrors(err.errors))
-     }
-    })
-   }
-
-  //post freelnacer info end
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    setErrors([]);
-    setIsLoading(true);
+    setIsLoading(true)
+    console.log(userForm)
+    console.log('clicked')
+    postDataUser()
+    setErrors([])
   }
 
     return (
       <div className="login-box" id={"sBoxColor"}>
-      <h2>{`Sign Up as ${accountType}`}</h2>
+      <h2>{`Sign Up`}</h2>
       <form onSubmit={handleSubmit}>
           <div className="user-box">
           <input onChange={handleChange} type="text" name="username" required="true" value={username}/>
@@ -96,10 +77,10 @@ function SignupUser () {
           <input onChange={handleChange} type="password" name="password" required="true" value={password}/>
           <label>Password</label>
           </div>
-          <div className="user-box">
+          {/* <div className="user-box">
           <input onChange={handleChange} type="password" name="password_confirmation" required="true" value={password_confirmation}/>
           <label>Confirm Password</label>
-          </div>
+          </div> */}
           <Button type='submit' id='submitLogin'>{isLoading ? "Loading..." : "Sign Up"}</Button>
           <div> {errors.map((err) => (
                 <p>{err}</p>
