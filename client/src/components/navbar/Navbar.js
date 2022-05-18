@@ -12,7 +12,7 @@ function Navbar (props) {
 
     return (
         <>
-            <Link to='/home'>Home</Link>
+            {user&&<Link to='/'>Home</Link>}
             <Link to='/login'>Login</Link>
             <Link to='/signup'>Signup</Link>
             {user&&<button onClick={handleClick}>Logout</button>}

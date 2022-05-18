@@ -34,8 +34,8 @@ const loginUser = (data) => {
           setUser(jwt_decode(data.access))
           localStorage.setItem('authTokens', JSON.stringify(data))
         })
+        .then(()=>navigate('/'))
         .then(()=>setIsLoading(false))
-        .then(navigate('/'))
       } else {
         r.json()
         .then(err=>setErrors([...errors,err.detail]))
