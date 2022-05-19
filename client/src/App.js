@@ -5,14 +5,15 @@ import Home from './components/home/Home';
 import Navbar from './components/navbar/Navbar';
 import { Routes, Route} from "react-router-dom";
 import PrivateRoute from './utils/PrivateRoute';
-import {AuthProvider} from './context/AuthContext';
 import LogedOutRoute from './utils/LogedOutRoute';
+import AuthContext from "./context/AuthContext";
+import React, {useContext } from "react";
 
 function App() {
+  let {user} = useContext(AuthContext)
 
   return (
-    <AuthProvider>
-      <div className="App">
+      <div className={user?"App":'regpage'}>
         <Navbar/>
         <Routes>
               <Route path="/login" element={
@@ -30,7 +31,6 @@ function App() {
               {/* <Route exact path='/home' element={<Home/>} /> */}
         </Routes>
       </div>
-    </AuthProvider>
   );
 }
 
