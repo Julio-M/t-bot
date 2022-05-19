@@ -50,7 +50,7 @@ function SignupUser () {
       res.json().then((data)=> console.log(data))
     } else
     {
-      res.json().then((err)=> console.log(err))
+      res.json().then((err)=> setErrors([err.message,err.explanation]))
     }
    })
   }
@@ -130,32 +130,3 @@ function SignupUser () {
 }
 
 export default SignupUser;
-
-{/* <div className="login-box" id={"sBoxColor"}>
-<h2>{`Sign Up`}</h2>
-<form onSubmit={handleSubmit}>
-    <div className="user-box">
-    <input onChange={handleChange} type="text" name="username" required="true" value={username}/>
-    <label>Username</label>
-    </div>
-    <div className="user-box">
-    <input onChange={handleChange} type="email" name="email" required="true" value={email}/>
-    <label>Email</label>
-    </div>
-    <div className="user-box">
-    <input onChange={handleChange} type="password" name="password" required="true" value={password}/>
-    <label>Password</label>
-    </div>
-    {/* <div className="user-box">
-    <input onChange={handleChange} type="password" name="password_confirmation" required="true" value={password_confirmation}/>
-    <label>Confirm Password</label>
-    </div> */}
-//     <Button type='submit' id='submitLogin'>{isLoading ? "Loading..." : "Sign Up"}</Button>
-//     <div> {errors.map((err) => (
-//           <p>{err}</p>
-//       ))}</div>
-//     <div className='sbutton'>
-//     <Button onClick={clickLog} id='go-to-login'>Go to LogIn</Button>
-//     </div>
-// </form>
-// </div> */}
