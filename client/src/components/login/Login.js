@@ -17,24 +17,6 @@ function Login () {
         password:''
     })
 
-
-    // const postDataUser = () => {
-    //     fetch(`http://127.0.0.1:8000/auth/`, {
-    //         method: "POST",
-    //         headers: {
-    //           "Content-Type": "application/json",
-    //         },
-    //         body: JSON.stringify(userForm),
-    //         }).then((r) => {
-    //           if (r.ok) {
-    //             r.json().then((data) => console.log(data.token)).then(()=>setIsLoading(false)).then(navigate('/login'))
-    //           } else {
-    //             console.log('None')
-    //             r.json().then(err=>setErrors(err.non_field_errors)).then(()=>setIsLoading(false))
-    //           }
-    //       })
-    // }
-
     const {username,password} = userForm
 
     const handleChange = (e) => {
@@ -47,7 +29,6 @@ function Login () {
     const handleSubmit = (e) => {
         e.preventDefault()
         setIsLoading(true)
-        // postDataUser()
         setErrors([])
         loginUser(userForm)
     }
