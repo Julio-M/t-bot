@@ -1,0 +1,51 @@
+.dashboard{
+  width: 97%;
+  margin-left: 1.5%;
+  text-align: center;
+  margin-top: 1rem;
+}
+
+.fake{
+  border-style: solid;
+  border-width: 1px;
+  border-radius: 1%;
+  height:100%
+}
+
+#assets{
+  margin-top: 2rem;
+  height: 100%;
+}
+#assets-trading{
+  height: 100%;
+  border-style: solid;
+  border-width: 1px;
+  border-radius: 1%;
+}
+
+.stock-ticker{
+  float: left;
+  margin-left: 2rem;
+}
+
+.stock-logo{
+  float:left;
+  width: 60px;
+  height: 60px;
+  margin-left: 6rem;
+  border-radius: 100%;
+  border-style: solid;
+  border-width: 1px;
+}
+
+.s-logo{
+  width: 100%;
+  height: 100%;
+}
+
+@media only screen and (max-width: 600px) {
+  .stock-logo{
+    width: 20px;
+    height: 20px;
+  }
+}

@@ -41,9 +41,9 @@ function Login () {
                         <h1 className='text-h'>Trading-Bot built in Python</h1>
                         <div className='reg-images'>
                             <img id='bot-img' src='https://res.cloudinary.com/dimfaeuml/image/upload/v1652930019/580b57fbd9996e24bc43be01_cs02bt.png' alt='robot relaxing'/>
-                            <img id='graph-img' src='https://res.cloudinary.com/dimfaeuml/image/upload/v1652930149/585d35bfcb11b227491c3347_el9wjw.png'
+                            {/* <img id='graph-img' src='https://res.cloudinary.com/dimfaeuml/image/upload/v1652930149/585d35bfcb11b227491c3347_el9wjw.png'
                             alt='graph'
-                            />
+                            /> */}
                         </div>
                     </div>
                 </Grid>
