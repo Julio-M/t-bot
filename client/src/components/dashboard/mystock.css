@@ -3,6 +3,10 @@
   height: 10%;
 }
 
+tr.css-34nofg-MuiTableRow-root{
+  cursor: pointer;
+}
+
 .stock-cont{
   height: 100%;
 }

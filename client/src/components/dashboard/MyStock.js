@@ -6,34 +6,44 @@ import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableRow from '@mui/material/TableRow';
 import AuthContext from "../../context/AuthContext";
+import { TableHead } from "@mui/material";
+
 
 
 function MyStock (props) {
   let {assets,setCurrAsset} = useContext(AuthContext)
 
   const handleClick = (e) => {
-    setCurrAsset(e.target.name)
+    setCurrAsset(e.target.getAttribute("value"))
   }
 
   const displayAssets = assets.map((row) => (
     <TableRow
-      onClick={handleClick}
+      onClick={handleClick} 
+      hover
       key={row.ticker}
       sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
     >
-      <TableCell component="th" scope="row">
-      {<img className='profile-pic-book' name={row.ticker} src={row.name} alt='logo'/> }
+      <TableCell  value={row.ticker} component="th" scope="row">
+      {<img value={row.ticker} className='asset-logo-pic' src={row.name} alt='logo'/> }
         {row.id}
       </TableCell>
-      <TableCell align="right">{row.name}</TableCell>
-      <TableCell align="right">{row.ticker}</TableCell>
+      <TableCell value={row.ticker} align="right">{row.name}</TableCell>
+      <TableCell value={row.ticker} align="right">{row.ticker}</TableCell>
     </TableRow>
   ))
 
     return (
         <>
         <TableContainer className='stock-cont'>
-            <Table sx={{ minWidth: "100%"}} aria-label="simple table">
+            <Table  sx={{ minWidth: "100%"}}>
+            <TableHead>
+                <TableRow className='headers'>
+                  <TableCell align="right"></TableCell>
+                  <TableCell align="right">Asset</TableCell>
+                  <TableCell align="right">Ticker</TableCell>
+                </TableRow>
+              </TableHead>
               <TableBody>
                 {displayAssets}
               </TableBody>

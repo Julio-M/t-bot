@@ -7,6 +7,7 @@ import './dashboard.css'
 import MyStock from "./MyStock";
 import AuthContext from "../../context/AuthContext";
 import { Button } from '@mui/material';
+import InfoTable from "./InfoTable";
 
 
 function Dashboard (props) {
@@ -30,11 +31,11 @@ function Dashboard (props) {
         setTime_f(10095)
         break;
       case 'month':
-        setOptions({week: 'long'})
+        setOptions({weekday: 'long'})
         setTime_f(43815)
         break;
       case 'year':
-        setOptions({ year:'2-digit'})
+        setOptions({ month:'short'})
         setTime_f(525615)
         break;
       default:
@@ -69,7 +70,9 @@ function Dashboard (props) {
                   </div>
                 </Grid>
                 <Grid zeroMinWidth item xs={12} sm={12}>
-                  <div className='more-data-table' id='assets'></div>
+                  <div className='more-data-table' id='assets'>
+                    <InfoTable/>
+                  </div>
                 </Grid>
             </Grid>
         </Box>

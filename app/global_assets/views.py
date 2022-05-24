@@ -51,13 +51,13 @@ def get_daily_bars(request,ticker,time_before,time_after):
   if time_after<=75:
     data_points= TimeFrame.Minute
   elif time_after>75 and time_after<=1455:
-    data_points = TimeFrame.Hour
+    data_points = TimeFrame.Minute
   elif time_after>1455 and time_after<=10095:
-    data_points = TimeFrame.Day
+    data_points = TimeFrame.Hour
   elif time_after>10095 and time_after<=43815:
-    data_points = TimeFrame.Week
+    data_points = TimeFrame.Day
   else:
-    data_points = TimeFrame.Month
+    data_points = TimeFrame.Day
   
   print('time after',data_points)
   aapl = api.get_bars(ticker, data_points,

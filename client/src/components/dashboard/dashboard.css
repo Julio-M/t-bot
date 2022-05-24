@@ -41,6 +41,10 @@
   height: 100%;
 }
 
+.more-data-table#assets{
+  height: 65vh;
+}
+
 @media only screen and (max-width: 600px) {
   .stock-logo{
     width: 20px;

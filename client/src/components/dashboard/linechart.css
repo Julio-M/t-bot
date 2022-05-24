@@ -1,5 +1,6 @@
-.mychart{
+.mychart svg{
   /* width: 100%; */
+  cursor: crosshair;
 }
 
 .chart-container{

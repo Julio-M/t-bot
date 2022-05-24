@@ -1,0 +1,46 @@
+.more-info{
+  border-style: solid;
+  border-width: 1px;
+  border-radius: 0.5%;
+  height: 100%;
+}
+
+.headers{
+  background-color:  #1976d2;
+}
+
+.headers th{
+  color: white;
+}
+
+.csvexport{
+  float:right;
+  margin-bottom: 0.5rem;
+  cursor: pointer;
+}
+
+.ex-ic{
+  width: 30px;
+  height: 30px;
+}
+
+.ex-title{
+  text-decoration: none;
+  color: rgb(251, 4, 4);
+  font-size: 1rem;
+}
+
+.csvexport:hover{
+  background-color: #d6dbe0;
+}
+
+@media only screen and (max-width: 600px) {
+  .ex-ic{
+    width: 10px;
+    height: 10px;
+  }
+  .ex-title{
+    font-size: 0.8rem;
+  }
+  
+}
