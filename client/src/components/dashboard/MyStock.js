@@ -9,22 +9,24 @@ import AuthContext from "../../context/AuthContext";
 
 
 function MyStock (props) {
-  let {myPositions} = useContext(AuthContext)
+  let {assets,setCurrAsset} = useContext(AuthContext)
 
-  const displayBookings = myPositions.map((row) => (
+  const handleClick = (e) => {
+    setCurrAsset(e.target.name)
+  }
+
+  const displayAssets = assets.map((row) => (
     <TableRow
-      key={row.id}
+      onClick={handleClick}
+      key={row.ticker}
       sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
     >
       <TableCell component="th" scope="row">
-      {<img className='profile-pic-book' src={row.symbol} alt='some profile'/> }
+      {<img className='profile-pic-book' name={row.ticker} src={row.name} alt='logo'/> }
         {row.id}
       </TableCell>
-      <TableCell align="right">{row.symbol}</TableCell>
-      <TableCell align="right">
-      <img className='profile-pic-book' src={row.asset_id} alt='some profile'/> 
-      </TableCell>
-      <TableCell align="right">${row.current_price}</TableCell>
+      <TableCell align="right">{row.name}</TableCell>
+      <TableCell align="right">{row.ticker}</TableCell>
     </TableRow>
   ))
 
@@ -33,7 +35,7 @@ function MyStock (props) {
         <TableContainer>
             <Table sx={{ minWidth: "100%"}} aria-label="simple table">
               <TableBody>
-                {displayBookings}
+                {displayAssets}
               </TableBody>
             </Table>
         </TableContainer>

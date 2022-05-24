@@ -1,13 +1,16 @@
-import React, { useState } from "react";
+import React, { useState,useContext } from "react";
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import {Link} from 'react-router-dom';
 import MyChart from "./MyChart";
 import './dashboard.css'
 import MyStock from "./MyStock";
+import AuthContext from "../../context/AuthContext";
 
 
 function Dashboard (props) {
+  let {currAsset} = useContext(AuthContext)
+
     return (
           <Box className='dashboard'>
             <Grid container spacing={4}>
@@ -16,7 +19,7 @@ function Dashboard (props) {
                     <div className='stock-logo'>
                       <img className='s-logo' src='' alt='stock logo'/>
                     </div>
-                    <h3 className='stock-ticker'>TSL Inc.</h3>
+                    <h3 className='stock-ticker'>{currAsset}</h3>
                   </span>
                     <MyChart/>
                 </Grid>

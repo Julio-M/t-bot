@@ -9,6 +9,9 @@ import pytz
 import alpaca_trade_api as tradeapi
 from alpaca_trade_api.rest import TimeFrame
 import json
+from .serializers import AssetSerializer
+from rest_framework import serializers
+from .models import Asset
 
 
 @api_view(['GET'])
@@ -25,7 +28,6 @@ def get_positions(request):
   return JsonResponse(r.json(), safe=False)
 
 @api_view(['GET'])
-
 def get_daily_bars(request,ticker):
   BASE_URL = 'https://paper-api.alpaca.markets'
   api = tradeapi.REST(key_id=config("ALP_AK"), secret_key=config("ALP_AS"),
@@ -50,3 +52,12 @@ def get_daily_bars(request,ticker):
   data = aapl.to_json(orient='table')
   x = json.loads(data)
   return JsonResponse(x,safe=False)
+
+
+@api_view(['GET'])
+def get_assets(request):
+  if request.method == 'GET':
+        asset = Asset.objects.all()
+        serializer = AssetSerializer(asset, many=True)
+        return JsonResponse(serializer.data, safe=False)
+  
