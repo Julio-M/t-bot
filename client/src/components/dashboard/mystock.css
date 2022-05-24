@@ -2,3 +2,7 @@
   display: inline; /* the default for span */
   height: 10%;
 }
+
+.stock-cont{
+  height: 100%;
+}

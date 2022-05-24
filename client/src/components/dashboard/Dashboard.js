@@ -6,10 +6,43 @@ import MyChart from "./MyChart";
 import './dashboard.css'
 import MyStock from "./MyStock";
 import AuthContext from "../../context/AuthContext";
+import { Button } from '@mui/material';
 
 
 function Dashboard (props) {
-  let {currAsset} = useContext(AuthContext)
+  const [options,setOptions] = useState( {hour:'numeric'})
+
+  let {currAsset,setTime_f} = useContext(AuthContext)
+
+  const handleClick = (e) => {
+    let name = e.target.name
+    switch(name) {
+      case 'hour':
+        setOptions({hour:'numeric'})
+        setTime_f(75)
+        break;
+      case 'day':
+        setOptions({day: 'numeric'})
+        setTime_f(1455)
+        break;
+      case 'week':
+        setOptions({weekday: 'short'})
+        setTime_f(10095)
+        break;
+      case 'month':
+        setOptions({month: 'short'})
+        setTime_f(43815)
+        break;
+      case 'year':
+        setOptions({ year: 'numeric'})
+        setTime_f(525615)
+        break;
+      default:
+        setOptions({ hour: 'numeric'})
+        setTime_f(75)
+        break;
+    }
+  }
 
     return (
           <Box className='dashboard'>
@@ -21,15 +54,22 @@ function Dashboard (props) {
                     </div>
                     <h3 className='stock-ticker'>{currAsset}</h3>
                   </span>
-                    <MyChart/>
+                    <MyChart options={options}/>
+                    <span className='filters'>
+                    <Button onClick={handleClick} name='hour' className='filter-txt' variant="text">1H</Button>
+                    <Button onClick={handleClick} name='day' className='filter-txt' variant="text">1D</Button>
+                    <Button onClick={handleClick} name='week' className='filter-txt' variant="text">1W</Button>
+                    <Button onClick={handleClick} name='month' className='filter-txt' variant="text">1M</Button>
+                    <Button onClick={handleClick} name='year' className='filter-txt' variant="text">1Y</Button>
+                  </span>
                 </Grid>
                 <Grid zeroMinWidth item xs={12} sm={4}>
-                  <div className='fake' id='assets-trading'>
+                  <div className='stocks-table' id='assets-trading'>
                     <MyStock/>
                   </div>
                 </Grid>
                 <Grid zeroMinWidth item xs={12} sm={12}>
-                  <div className='fake' id='assets'></div>
+                  <div className='more-data-table' id='assets'></div>
                 </Grid>
             </Grid>
         </Box>

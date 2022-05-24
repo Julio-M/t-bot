@@ -5,11 +5,10 @@
   margin-top: 1rem;
 }
 
-.fake{
-  border-style: solid;
+.stocks-table{
   border-width: 1px;
   border-radius: 1%;
-  height:100%
+  border-style: solid;
 }
 
 #assets{
@@ -17,8 +16,7 @@
   height: 100%;
 }
 #assets-trading{
-  height: 100%;
-  border-style: solid;
+  height: 65vh;
   border-width: 1px;
   border-radius: 1%;
 }
@@ -47,5 +45,11 @@
   .stock-logo{
     width: 20px;
     height: 20px;
+    margin-left: 0.5rem;;
+  }
+
+  .stock-ticker{
+    font-size: 0.8rem;
+    margin-left: 1rem;
   }
 }

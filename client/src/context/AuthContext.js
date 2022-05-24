@@ -20,6 +20,7 @@ export function AuthProvider ({children}) {
   const [liveData,setLiveData] = useState([])
   const [assets,setAssets] = useState([])
   const [currAsset,setCurrAsset] = useState("AAPL")
+  const [time_f,setTime_f] = useState(75)
 
   const updateToken = () => {
    fetch(`http://localhost:8000/api/token/refresh/`, {
@@ -93,11 +94,11 @@ export function AuthProvider ({children}) {
 
     //getLive data
     useEffect( () => {
-     fetch(`http://localhost:8000/api/bars/${currAsset}`)
+     fetch(`http://localhost:8000/api/bars/${currAsset}/15/${time_f}`)
      .then( res => res.json())
      .then( data => setLiveData(data.data))
      .catch( error => console.log(error.message));
-    },[currAsset])
+    },[currAsset,time_f])
 
     //get assets
     useEffect( () => {
@@ -120,7 +121,8 @@ export function AuthProvider ({children}) {
       liveData:liveData,
       assets:assets,
       setCurrAsset:setCurrAsset,
-      currAsset:currAsset
+      currAsset:currAsset,
+      setTime_f:setTime_f
     }
 
     useEffect( () => {

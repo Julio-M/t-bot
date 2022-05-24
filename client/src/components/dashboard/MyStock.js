@@ -32,7 +32,7 @@ function MyStock (props) {
 
     return (
         <>
-        <TableContainer>
+        <TableContainer className='stock-cont'>
             <Table sx={{ minWidth: "100%"}} aria-label="simple table">
               <TableBody>
                 {displayAssets}

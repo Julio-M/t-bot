@@ -1,4 +1,5 @@
 from email import header
+from time import time
 from django.shortcuts import render
 import requests
 from decouple import config
@@ -28,7 +29,9 @@ def get_positions(request):
   return JsonResponse(r.json(), safe=False)
 
 @api_view(['GET'])
-def get_daily_bars(request,ticker):
+def get_daily_bars(request,ticker,time_before,time_after):
+  print(time_before)
+  print(time_after)
   BASE_URL = 'https://paper-api.alpaca.markets'
   api = tradeapi.REST(key_id=config("ALP_AK"), secret_key=config("ALP_AS"),
                     base_url=BASE_URL, api_version='v2')
@@ -38,13 +41,24 @@ def get_daily_bars(request,ticker):
 
   # Get the current time, 15minutes, and 1 hour ago
   time_now = dt.datetime.now(tz=UTC)
-  time_15_min_ago = time_now - dt.timedelta(minutes=15)
-  time_1_hr_ago = time_now - dt.timedelta(hours=24)
+  time_15_min_ago = time_now - dt.timedelta(minutes=time_before)
+  time_1_hr_ago = time_now - dt.timedelta(hours=time_after)
 
   account = api.get_account()
   print(account)
+  
 
-  aapl = api.get_bars(ticker, TimeFrame.Hour,
+  if time_after<=1455:
+    data_points= TimeFrame.Hour
+  elif time_after>1455 and time_after<=10095:
+    data_points = TimeFrame.Day
+  elif time_after>10095 and time_after<=43815:
+    data_points = TimeFrame.Week
+  else:
+    data_points = TimeFrame.Month
+  
+  print('time after',data_points)
+  aapl = api.get_bars(ticker, data_points,
                       start=time_1_hr_ago.isoformat(),
                       end=time_15_min_ago.isoformat(),
                       adjustment='raw'

@@ -1,3 +1,36 @@
 .mychart{
   /* width: 100%; */
 }
+
+.chart-container{
+  margin-left: -2rem;
+}
+
+.filters{
+  display: inline-block;
+  margin-bottom:0;
+  display: flex; 
+  justify-content: space-around;
+  background-color: #eeeeee;
+}
+
+button.filter-txt{
+  font-size: large;
+}
+
+@media only screen and (max-width: 600px) {
+  .filters{
+    display: inline-block;
+    margin-bottom:0;
+    display: flex; 
+    justify-content: space-around;
+  }
+
+  button.filter-txt{
+    font-size: small;
+  }
+
+tspan{
+    display: none;
+  }
+}
