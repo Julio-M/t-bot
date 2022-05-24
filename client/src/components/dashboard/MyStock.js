@@ -1,29 +1,30 @@
-import React, { useState } from "react";
+import React, { useState,useContext } from "react";
 import './mystock.css'
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableRow from '@mui/material/TableRow';
+import AuthContext from "../../context/AuthContext";
+
 
 function MyStock (props) {
+  let {myPositions} = useContext(AuthContext)
 
-  const myAssets = [0,2,3,43,543,546,46,575,87,453]
-
-  const displayBookings = myAssets.map((row) => (
+  const displayBookings = myPositions.map((row) => (
     <TableRow
-      key={row}
+      key={row.id}
       sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
     >
       <TableCell component="th" scope="row">
-      {<img className='profile-pic-book' src={row} alt='some profile'/> }
-        {row}
+      {<img className='profile-pic-book' src={row.symbol} alt='some profile'/> }
+        {row.id}
       </TableCell>
-      <TableCell align="right">{row}</TableCell>
+      <TableCell align="right">{row.symbol}</TableCell>
       <TableCell align="right">
-      <img className='profile-pic-book' src={row} alt='some profile'/> 
+      <img className='profile-pic-book' src={row.asset_id} alt='some profile'/> 
       </TableCell>
-      <TableCell align="right">{row}</TableCell>
+      <TableCell align="right">${row.current_price}</TableCell>
     </TableRow>
   ))
 

@@ -1,9 +1,11 @@
-import React, { useState } from "react";
+import React, { useState,useContext } from "react";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import './linechart.css'
+import AuthContext from "../../context/AuthContext";
 
 
 function MyChart (props) {
+  let {liveData} = useContext(AuthContext)
     const data = [
         {
           "name": "Page A",
@@ -68,14 +70,14 @@ function MyChart (props) {
     return (
         <>
         <ResponsiveContainer width="100%"   aspect={4.0/2.0}>
-            <LineChart className='mychart' data={data}
+            <LineChart className='mychart' data={liveData}
                   margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
                    <CartesianGrid horizontal={false} vertical={false} />
-                  <XAxis dataKey="name" />
-                  {/* <YAxis/> */}
+                  <XAxis dataKey="timestamp" />
+                  <YAxis/>
                   <Tooltip />
                   <Legend />
-                  <Line type="monotone" dataKey="pv" stroke="#8884d8" />
+                  <Line type="monotone" dataKey="vwap" stroke="#8884d8" />
           </LineChart>
         </ResponsiveContainer>
         </>

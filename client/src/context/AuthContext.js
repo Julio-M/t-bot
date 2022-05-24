@@ -16,6 +16,8 @@ export function AuthProvider ({children}) {
   const [errors, setErrors] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [load,setLoad] = useState(true)
+  const [myPositions, setMyPositions] = useState([])
+  const [liveData,setLiveData] = useState([])
 
   const updateToken = () => {
    fetch(`http://localhost:8000/api/token/refresh/`, {
@@ -79,6 +81,22 @@ export function AuthProvider ({children}) {
       navigate('/login')
     }
 
+    //get_positions
+    useEffect( () => {
+      fetch(`http://localhost:8000/api/positions/`)
+      .then( res => res.json())
+      .then( data => setMyPositions(data))
+      .catch( error => console.log(error.message));
+    },[])
+
+    //getLive data
+    useEffect( () => {
+     fetch(`http://localhost:8000/api/bars/AAPL`)
+     .then( res => res.json())
+     .then( data => setLiveData(data.data))
+     .catch( error => console.log(error.message));
+    },[])
+
 
     let contextData = {
       loginUser:loginUser,
@@ -88,6 +106,8 @@ export function AuthProvider ({children}) {
       isLoading:isLoading,
       setIsLoading:setIsLoading,
       user:user,
+      myPositions:myPositions,
+      liveData:liveData
     }
 
     useEffect( () => {

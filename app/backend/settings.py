@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'corsheaders',
     'accounts', 
     'trscreen',
+    'global_assets',
     'rest_framework_simplejwt.token_blacklist'
 ]
 
