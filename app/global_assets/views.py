@@ -42,14 +42,16 @@ def get_daily_bars(request,ticker,time_before,time_after):
   # Get the current time, 15minutes, and 1 hour ago
   time_now = dt.datetime.now(tz=UTC)
   time_15_min_ago = time_now - dt.timedelta(minutes=time_before)
-  time_1_hr_ago = time_now - dt.timedelta(hours=time_after)
+  time_1_hr_ago = time_now - dt.timedelta(minutes=time_after)
 
   account = api.get_account()
   print(account)
   
 
-  if time_after<=1455:
-    data_points= TimeFrame.Hour
+  if time_after<=75:
+    data_points= TimeFrame.Minute
+  elif time_after>75 and time_after<=1455:
+    data_points = TimeFrame.Hour
   elif time_after>1455 and time_after<=10095:
     data_points = TimeFrame.Day
   elif time_after>10095 and time_after<=43815:

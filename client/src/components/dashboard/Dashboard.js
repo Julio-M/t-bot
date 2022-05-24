@@ -18,11 +18,11 @@ function Dashboard (props) {
     let name = e.target.name
     switch(name) {
       case 'hour':
-        setOptions({hour:'numeric'})
+        setOptions({hour:'2-digit', minute:'2-digit' })
         setTime_f(75)
         break;
       case 'day':
-        setOptions({day: 'numeric'})
+        setOptions({hour: 'numeric'})
         setTime_f(1455)
         break;
       case 'week':
@@ -30,11 +30,11 @@ function Dashboard (props) {
         setTime_f(10095)
         break;
       case 'month':
-        setOptions({month: 'short'})
+        setOptions({week: 'long'})
         setTime_f(43815)
         break;
       case 'year':
-        setOptions({ year: 'numeric'})
+        setOptions({ year:'2-digit'})
         setTime_f(525615)
         break;
       default:
