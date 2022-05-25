@@ -55,7 +55,7 @@ function Dashboard (props) {
     return (
           <Box className='dashboard'>
             <Grid container spacing={4}>
-                <Grid zeroMinWidth item xs={12} sm={8}>
+                <Grid zeroMinWidth item xs={12} sm={!tview?8:8.5}>
                 <Button onClick={handleTview} name='trading-view' className='tview-txt' variant="contained" color={tview?"success":"secondary"}>{!tview?'Trade view':'Normal view'}</Button>
                 {!tview?
                   <>
@@ -67,17 +67,18 @@ function Dashboard (props) {
                   </span>
                     <MyChart options={options}/>
                     <span className='filters'>
-                    {true?<Button onClick={handleClick} name='hour' className='filter-txt' variant="text">1H</Button>:<Button disabled>1H</Button>}
+                    <Button onClick={handleClick} name='hour' className='filter-txt' variant="text">1H</Button>
                     <Button onClick={handleClick} name='day' className='filter-txt' variant="text">1D</Button>
                     <Button onClick={handleClick} name='week' className='filter-txt' variant="text">1W</Button>
                     <Button onClick={handleClick} name='month' className='filter-txt' variant="text">1M</Button>
                     <Button onClick={handleClick} name='year' className='filter-txt' variant="text">1Y</Button>
                   </span>
                   </>
-                  :<TradingViewWidget symbol={`NASDAQ:${currAsset}`} />}
-                  {/* <TradingViewWidget symbol="NASDAQ:AAPL" /> */}
+                  :<div className='tr-view' >
+                  <TradingViewWidget className='em-'symbol={`NASDAQ:${currAsset}`} />
+                  </div>}
                 </Grid>
-                <Grid zeroMinWidth item xs={12} sm={4}>
+                <Grid zeroMinWidth item xs={12} sm={!tview?4:3.5}>
                   <div className='stocks-table' id='assets-trading'>
                     <MyStock/>
                   </div>

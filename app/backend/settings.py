@@ -45,7 +45,8 @@ INSTALLED_APPS = [
     'accounts', 
     'trscreen',
     'global_assets',
-    'rest_framework_simplejwt.token_blacklist'
+    'rest_framework_simplejwt.token_blacklist',
+    't_bot'
 ]
 
 REST_FRAMEWORK = {

@@ -69,3 +69,23 @@
   }
 
 }
+
+.tr-view{
+  width: 100%;
+  position: relative;
+  display: flex;
+}
+
+.em-tr-view{
+  width: 100%;
+  display: inline-block;
+}
+
+iframe#tradingview_49031{
+  width: 90% !important;
+}
+div#tradingview_357ef-wrapper > div{
+  width: 95% !important;
+}
+
+
