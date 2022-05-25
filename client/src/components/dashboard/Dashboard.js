@@ -8,12 +8,15 @@ import MyStock from "./MyStock";
 import AuthContext from "../../context/AuthContext";
 import { Button } from '@mui/material';
 import InfoTable from "./InfoTable";
+import TradingViewWidget from 'react-tradingview-widget';
 
 
 function Dashboard (props) {
   const [options,setOptions] = useState( {hour:'numeric'})
 
   let {currAsset,setTime_f} = useContext(AuthContext)
+
+  const [tview,setTview] = useState(false)
 
   const handleClick = (e) => {
     let name = e.target.name
@@ -45,11 +48,18 @@ function Dashboard (props) {
     }
   }
 
+  const handleTview = (e) => {
+    setTview(!tview)
+  }
+
     return (
           <Box className='dashboard'>
             <Grid container spacing={4}>
                 <Grid zeroMinWidth item xs={12} sm={8}>
-                  <span>
+                <Button onClick={handleTview} name='trading-view' className='tview-txt' variant="contained" color={tview?"success":"secondary"}>{!tview?'Trade view':'Normal view'}</Button>
+                {!tview?
+                  <>
+                    <span>
                     <div className='stock-logo'>
                       <img className='s-logo' src='' alt='stock logo'/>
                     </div>
@@ -63,6 +73,9 @@ function Dashboard (props) {
                     <Button onClick={handleClick} name='month' className='filter-txt' variant="text">1M</Button>
                     <Button onClick={handleClick} name='year' className='filter-txt' variant="text">1Y</Button>
                   </span>
+                  </>
+                  :<TradingViewWidget symbol={`NASDAQ:${currAsset}`} />}
+                  {/* <TradingViewWidget symbol="NASDAQ:AAPL" /> */}
                 </Grid>
                 <Grid zeroMinWidth item xs={12} sm={4}>
                   <div className='stocks-table' id='assets-trading'>

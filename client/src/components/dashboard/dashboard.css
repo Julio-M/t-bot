@@ -45,6 +45,11 @@
   height: 65vh;
 }
 
+.tview-txt{
+  float: right;
+  cursor: pointer;
+}
+
 @media only screen and (max-width: 600px) {
   .stock-logo{
     width: 20px;
@@ -56,4 +61,11 @@
     font-size: 0.8rem;
     margin-left: 1rem;
   }
+
+  .tview-txt{
+    float: right;
+    width: 30%;
+    height: 10%;
+  }
+
 }
