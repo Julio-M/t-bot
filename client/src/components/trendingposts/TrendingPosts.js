@@ -13,37 +13,35 @@ function TrendingPosts (props) {
 
   const tweetSelect = stockTweets.map(el => <MenuItem value={el}>{el.toUpperCase()}</MenuItem>)
 
-
-  const [embeded,setEmbeded] = useState("paulkrugman")
-
-
   const [whichPost,setWhichPost] = useState(
-  <>
   <TwitterTimelineEmbed
     sourceType="profile"
-    screenName={embeded}
+    screenName="MarketWatch"
     className='tw-em'
-    options={{height:"100vh",width:"50%"}}
+    options={{height:"100vh",width:"100%"}}
     related
     theme='light'
     />  
-    </>
     )
 
   const handleChange = (e) => {
     let value = e.target.value
-    setEmbeded(value)
+    setWhichPost(
+      <TwitterTimelineEmbed
+        key={value}
+        sourceType="profile"
+        screenName={value}
+        className='tw-em'
+        options={{height:"100vh",width:"100%"}}
+        related
+        theme='light'
+        /> )
   }
 
     return (
       <Box className='t-posts'>
           <Grid className='t-container' container spacing={2}>
-          <Grid zeroMinWidth item xs={12} sm={8}>
-              <div className='feed'>
-              {whichPost}
-              </div>
-            </Grid>
-            <Grid zeroMinWidth className='t-controls' item xs={12} sm={4}>
+          <Grid zeroMinWidth className='t-controls' item xs={12} sm={6}>
               <div className='controls'>
                 <FormControl style={{width:"50%"}}>
                   <InputLabel id="demo-simple-select-label">Accounts</InputLabel>
@@ -56,6 +54,11 @@ function TrendingPosts (props) {
                     {tweetSelect}
                   </Select>
                 </FormControl>
+              </div>
+            </Grid>
+          <Grid zeroMinWidth item xs={12} sm={6}>
+              <div className='feed'>
+              {whichPost}
               </div>
             </Grid>
           </Grid>

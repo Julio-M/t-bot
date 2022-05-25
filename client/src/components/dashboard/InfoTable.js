@@ -13,9 +13,7 @@ import { FaWpforms } from 'react-icons/fa';
 
 
 function InfoTable (props) {
-  let {currAsset,setCurrAsset,liveData} = useContext(AuthContext)
-
-  console.log('ASSETSS',liveData)
+  let {currAsset,liveData} = useContext(AuthContext)
 
   const displayAssets = liveData.slice(0).reverse().map((row) => (
     <TableRow

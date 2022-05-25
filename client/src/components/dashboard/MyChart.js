@@ -25,7 +25,8 @@ function MyChart ({options}) {
     return (
         <>
         <ResponsiveContainer className='chart-container' width="100%" aspect={4.0/2.0}>
-            {convertingDate.length>0?<LineChart className='mychart' data={convertingDate}
+            {convertingDate.length>0?
+                <LineChart className='mychart' data={convertingDate}
                   margin={{ top: 5, right: 10, left: 10, bottom: 5 }}>
                   <CartesianGrid horizontal={false} vertical={false} />
                   <XAxis classNmae='data-shown' dataKey="c"/>
@@ -33,7 +34,8 @@ function MyChart ({options}) {
                   <Tooltip cursor={false}  />
                   <Legend />
                   <Line type="monotone" dataKey="vwap" stroke="#DC143C" />
-          </LineChart>:waitingForMarket}
+                </LineChart>
+          :waitingForMarket}
         </ResponsiveContainer>
         </>
     );
