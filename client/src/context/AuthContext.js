@@ -20,7 +20,7 @@ export function AuthProvider ({children}) {
   const [liveData,setLiveData] = useState([])
   const [assets,setAssets] = useState([])
   const [currAsset,setCurrAsset] = useState("AAPL")
-  const [time_f,setTime_f] = useState(75)
+  const [time_f,setTime_f] = useState(1455)
 
   const updateToken = () => {
    fetch(`http://localhost:8000/api/token/refresh/`, {
@@ -107,7 +107,6 @@ export function AuthProvider ({children}) {
     .then( data => setAssets(data))
     .catch( error => console.log(error.message));
     },[])
-
 
     let contextData = {
       loginUser:loginUser,

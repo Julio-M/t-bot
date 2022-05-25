@@ -9,6 +9,7 @@ import LogedOutRoute from './utils/LogedOutRoute';
 import AuthContext from "./context/AuthContext";
 import React, {useContext } from "react";
 import Dashboard from './components/dashboard/Dashboard';
+import TrendingPosts from './components/trendingposts/TrendingPosts';
 
 function App() {
   let {user} = useContext(AuthContext)
@@ -32,6 +33,12 @@ function App() {
                 <Route path="/dashboard" element={
                   <PrivateRoute>
                     <Dashboard/>
+                  </PrivateRoute>
+                    }
+                />
+                <Route path="/trending-posts" element={
+                  <PrivateRoute>
+                    <TrendingPosts/>
                   </PrivateRoute>
                     }
                 />

@@ -57,7 +57,7 @@ function Dashboard (props) {
                   </span>
                     <MyChart options={options}/>
                     <span className='filters'>
-                    <Button onClick={handleClick} name='hour' className='filter-txt' variant="text">1H</Button>
+                    {true?<Button onClick={handleClick} name='hour' className='filter-txt' variant="text">1H</Button>:<Button disabled>1H</Button>}
                     <Button onClick={handleClick} name='day' className='filter-txt' variant="text">1D</Button>
                     <Button onClick={handleClick} name='week' className='filter-txt' variant="text">1W</Button>
                     <Button onClick={handleClick} name='month' className='filter-txt' variant="text">1M</Button>
