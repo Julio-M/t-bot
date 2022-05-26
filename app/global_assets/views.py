@@ -13,8 +13,10 @@ import json
 from .serializers import AssetSerializer
 from rest_framework import serializers
 from .models import Asset
+from asgiref.sync import sync_to_async
 
 
+@sync_to_async
 @api_view(['GET'])
 def get_positions(request):
   url = 'https://paper-api.alpaca.markets/v2/positions'
@@ -28,6 +30,7 @@ def get_positions(request):
 
   return JsonResponse(r.json(), safe=False)
 
+@sync_to_async
 @api_view(['GET'])
 def get_daily_bars(request,ticker,time_before,time_after):
   print(time_before)
@@ -68,7 +71,7 @@ def get_daily_bars(request,ticker,time_before,time_after):
   data = aapl.to_json(orient='table')
   x = json.loads(data)
   return JsonResponse(x,safe=False)
-
+  
 
 @api_view(['GET'])
 def get_assets(request):

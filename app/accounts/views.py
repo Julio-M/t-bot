@@ -8,6 +8,7 @@ from rest_framework import status
 from django.http import JsonResponse
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
+from asgiref.sync import sync_to_async
 
 class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
     @classmethod
@@ -53,7 +54,7 @@ def add_users(request):
         status_code = 400
         message = "The request is not valid."
         # You should log this error because this usually means your front end has a bug.
-        # do you whant to explain anything?
+        # do you want to explain anything?
         explanation = "The server could not accept your request because it was not valid. Please try again!"
 
         return JsonResponse({'message':message,'explanation':explanation}, status=status_code)

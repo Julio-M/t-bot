@@ -5,7 +5,9 @@ import datetime
 from decouple import config
 from rest_framework.decorators import api_view
 from django.http import JsonResponse
-
+from .consumers import ChatConsumer
+from channels.layers import get_channel_layer
+from asgiref.sync import async_to_sync
 
 # Utility to truncate a float value to a certain number of decimal places.
 # We'll use this to see if a "penny level" was crossed when we compare prices.

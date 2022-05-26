@@ -1,20 +1,51 @@
 import json
 from channels.generic.websocket import WebsocketConsumer
-from matplotlib.pyplot import connect
-from regex import P
+from asgiref.sync import async_to_sync
+from django.db import connection
 
 
 
 class ChatConsumer(WebsocketConsumer):
   def connect(self):
-    self.accept()
+  #  self.room_group_name='test'
+  #  async_to_sync(self.channel_layer.group_add)(
+  #     self.room_group_name,
+  #     self.channel_name
+  #   )
 
-    self.send(text_data=json.dumps({
+   self.accept()
+
+   self.send(text_data=json.dumps({
+     'type':'connection_established',
+     'message':'You are connected'
+
+   }))
+
+   self.send(text_data=json.dumps({
       'type':'connection_established',
-      'message':'hello'
-    }))
+      'form view':'ko'
+   }))
 
   def receive(self,text_data):
     text_data_json = json.loads(text_data)
     message = text_data_json['message']
     print(message)
+    self.send(text_data=json.dumps({
+      'type':'chat',
+      'message':message
+    }))
+    # async_to_sync(self.channel_layer.group_send)(
+    #   self.room_group_name,
+    #   {
+    #     'type':'chat_message',
+    #     'message': message
+    #   }
+    # )
+
+  def chat_message(self,event):
+    message=event['message']
+
+    self.send(text_data=json.dumps({
+      'type':'chat',
+      'message':message
+    }))
