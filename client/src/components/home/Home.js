@@ -8,28 +8,26 @@ function Home (props) {
     let url = `ws://localhost:8000/ws/socket-server/`
     const chatSocket = new WebSocket(url)
     const [message,setMessage] = useState('')
+    const [display, setDisplay]= useState([])
 
-    useEffect( () => {
-        console.log('Web')
-        console.log(chatSocket)
-        chatSocket.onmessage = (e) => {
-            console.log('insocket')
-            let data = JSON.parse(e.data)
-            console.log('Data:',data)
-        }
-    }
-    )
         
     const handleChange = (e) =>{
         let message =e.target.value
-        setMessage((m)=>m=message)
+        setMessage(message)
         }   
     
     const handleSubmit = (e) => {
         e.preventDefault()
+        console.log('Web')
+        console.log(chatSocket)
         chatSocket.send(JSON.stringify({
             'message':message
         }))
+    }
+    
+    chatSocket.onmessage = (e) => {
+        let data = JSON.parse(e.data)
+        console.log('DATa:',data)
     }
         
 
@@ -37,11 +35,11 @@ function Home (props) {
         <Box className='register-page'>
             <Grid container spacing={4}>
                 <Grid zeroMinWidth item xs={12} sm={6}>
-                Welcome
+                <div id='messages'>{display}</div>
                 </Grid>
                 <Grid zeroMinWidth item xs={12} sm={6}>
                 <form onSubmit={handleSubmit}>
-                    <input onChange={handleChange}></input>
+                    <input onChange={handleChange} value={message.message}></input>
                 </form>
                     You are loggen in! 
                 </Grid>

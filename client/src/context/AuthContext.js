@@ -43,6 +43,7 @@ export function AuthProvider ({children}) {
         localStorage.setItem('authTokens', JSON.stringify(data))
       })
     } else {
+      console.log('failed',r)
       logoutUser()
     }
 })
@@ -130,7 +131,7 @@ export function AuthProvider ({children}) {
         if(authToken){
           updateToken()
         }
-      }, 240000)
+      }, 30000)
       return () => clearInterval(interval)
     },[authToken,load])
 
