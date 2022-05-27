@@ -5,8 +5,11 @@ import datetime
 from decouple import config
 from rest_framework.decorators import api_view
 from django.http import JsonResponse
+from django.contrib.auth import get_user_model
+from .models import Tbot,Bot_Data
 
-
+User = get_user_model()
+users = User.objects
 # Utility to truncate a float value to a certain number of decimal places.
 # We'll use this to see if a "penny level" was crossed when we compare prices.
 # This is necessary because a price can change by 1/100th of a penny, but we
@@ -18,7 +21,7 @@ def truncate(val, decimal_places):
 # The MartingaleTrader bets that streaks of increases or decreases in a stock's
 # price are likely to break, and increases its bet each time it is wrong.
 class MartingaleTrader(object):
-    def __init__(self,data):
+    def __init__(self,data,current_user):
         # API authentication keys can be taken from the Alpaca dashboard.
         # https://app.alpaca.markets/paper/dashboard/overview
         self.key_id = config("ALP_AK")
@@ -59,6 +62,8 @@ class MartingaleTrader(object):
             self.base_url
         )
 
+        clock = self.api.get_clock()
+
         # Cancel any open orders so they don't interfere with this script
         self.api.cancel_all_orders()
 
@@ -73,10 +78,16 @@ class MartingaleTrader(object):
         self.equity = float(account_info.equity)
         self.margin_multiplier = float(account_info.multiplier)
         total_buying_power = self.margin_multiplier * self.equity
-        print(f'Initial total buying power = {total_buying_power}')
-
-
+        if clock.is_open:
+            ins = Tbot.objects.create(user=current_user,initial_buing_bower =f'Initial total buying power = {total_buying_power}')
+            ins.save()
+        else:
+            print('The market is {}'.format('open.' if clock.is_open else 'closed.'))
+    
+    
     def start_trading(self):
+        global the_bot
+        the_bot = Tbot.objects.last()
         conn = Stream(
             self.key_id,
             self.secret_key,
@@ -142,7 +153,8 @@ class MartingaleTrader(object):
                     # Our last order should be removed
                     self.current_order = None
             elif event_type != 'new':
-                print(f'Unexpected order event type {event_type} received')
+                m1 = Bot_Data.create(bot=the_bot, t_bot_message=f'Unexpected order event type {event_type} received')
+                m1.save()
 
         conn.subscribe_trade_updates(handle_trade_updates)
 
@@ -191,13 +203,15 @@ class MartingaleTrader(object):
         delta = target_qty - self.position
         if delta == 0:
             return
-        print(f'Ordering towards {target_qty}...')
+        m2 = Bot_Data.create(bot=the_bot, t_bot_message=f'Ordering towards {target_qty}...')
+        m2.save()
         try:
             if delta > 0:
                 buy_qty = delta
                 if self.position < 0:
                     buy_qty = min(abs(self.position), buy_qty)
-                print(f'Buying {buy_qty} shares.')
+                m3 = Bot_Data.create(bot=the_bot,t_bot_message=f'Buying {buy_qty} shares.')
+                m3.save()
                 self.current_order = self.api.submit_order(
                     self.symbol, buy_qty, 'buy',
                     'limit', 'day', self.last_price
@@ -206,19 +220,24 @@ class MartingaleTrader(object):
                 sell_qty = abs(delta)
                 if self.position > 0:
                     sell_qty = min(abs(self.position), sell_qty)
-                print(f'Selling {sell_qty} shares.')
+                m4 = Bot_Data.create(bot=the_bot,t_bot_message=f'Selling {sell_qty} shares.')
+                m4.save()
                 self.current_order = self.api.submit_order(
                     self.symbol, sell_qty, 'sell',
                     'limit', 'day', self.last_price
                 )
         except Exception as e:
-            print(e)
+            m5 = Bot_Data.create(bot=the_bot,t_bot_message=e)
+            m5.save()
 
-@api_view(['GET'])
+@api_view(['POST'])
 def initiate_bot(request):
   data=request.data['symbol']
+  user_id = request.data['user_id']
+  current_user = users.get(id=user_id)
   print('/////////',data)
-  trader = MartingaleTrader(data)
+  print('/////////',current_user)
+  trader = MartingaleTrader(data,current_user)
   trader.start_trading()
 
 
