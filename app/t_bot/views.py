@@ -7,6 +7,7 @@ from rest_framework.decorators import api_view
 from django.http import JsonResponse
 from django.contrib.auth import get_user_model
 from .models import Tbot,Bot_Data
+from .serializers import TbotSerializer,BotDataSerializer
 
 User = get_user_model()
 users = User.objects
@@ -239,6 +240,21 @@ def initiate_bot(request):
   print('/////////',current_user)
   trader = MartingaleTrader(data,current_user)
   trader.start_trading()
+
+@api_view(['GET'])
+def get_bot_data(request):
+ if request.method == 'GET':
+        bot = Tbot.objects.all()
+        serializer = TbotSerializer(bot, many=True)
+        return JsonResponse(serializer.data, safe=False)
+
+@api_view(['GET'])
+def get_bot_messages(request):
+ if request.method == 'GET':
+        bot = Bot_Data.objects.all()
+        serializer = BotDataSerializer(bot, many=True)
+        return JsonResponse(serializer.data, safe=False)
+
 
 
   
