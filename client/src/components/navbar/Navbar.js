@@ -22,7 +22,7 @@ const Navbar = () => {
     logoutUser()
   }
 
-  const pages = user?[<Link className='reg-app' to='/dashboard'>Dashboard</Link>,<Link className='reg-app' to='/my-dashboard'>My Portfolio</Link>, 'Trading Bot', <Link className='reg-app' to='/trending-posts'>Trending Posts</Link>, 'Trending News']:[<Link className='reg-app' to='/login'>Login</Link>, <Link className='reg-app' to='/signup'>Sign up</Link>]
+  const pages = user?[<Link className='reg-app' to='/dashboard'>Dashboard</Link>,<Link className='reg-app' to='/my-dashboard'>My Portfolio</Link>, <Link className='reg-app' to='/trading-bot'>Trading Bot</Link>, <Link className='reg-app' to='/trending-posts'>Trending Posts</Link>, 'Trending News']:[<Link className='reg-app' to='/login'>Login</Link>, <Link className='reg-app' to='/signup'>Sign up</Link>]
   const settings = user?['Profile', 'Account', 'Dashboard', <div onClick={handleClick}>Logout</div>]:[]
 
   const [anchorElNav, setAnchorElNav] = React.useState(null);

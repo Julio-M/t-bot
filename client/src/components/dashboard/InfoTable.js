@@ -18,7 +18,7 @@ function InfoTable (props) {
   const displayAssets = liveData.slice(0).reverse().map((row) => (
     <TableRow
       hover
-      key={row.ticker}
+      key={row.timestamp}
       sx={{ '&:last-child td, &:last-child th': { border: 0} }}
     >
       <TableCell align="right">{currAsset}</TableCell>

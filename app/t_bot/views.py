@@ -242,9 +242,9 @@ def initiate_bot(request):
   trader.start_trading()
 
 @api_view(['GET'])
-def get_bot_data(request):
+def get_bot_data(request,user_id):
  if request.method == 'GET':
-        bot = Tbot.objects.all()
+        bot = Tbot.objects.filter(user=user_id)
         serializer = TbotSerializer(bot, many=True)
         return JsonResponse(serializer.data, safe=False)
 

@@ -43,7 +43,8 @@ export function AuthProvider ({children}) {
         localStorage.setItem('authTokens', JSON.stringify(data))
       })
     } else {
-      logoutUser()
+      // logoutUser()
+      console.log('Not found')
     }
 })
   }
@@ -130,7 +131,7 @@ export function AuthProvider ({children}) {
         if(authToken){
           updateToken()
         }
-      }, 240000)
+      }, 120000)
       return () => clearInterval(interval)
     },[authToken,load])
 

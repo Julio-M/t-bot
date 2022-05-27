@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 
 # Create your models here.
 class Tbot(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)  # new
+    user = models.ForeignKey(User,related_name="tbot",on_delete=models.CASCADE)  # new
     initial_buing_bower = models.CharField(max_length=100)
     created = models.DateTimeField(auto_now_add=True)
 

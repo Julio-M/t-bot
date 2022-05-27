@@ -11,6 +11,7 @@ import React, {useContext } from "react";
 import Dashboard from './components/dashboard/Dashboard';
 import TrendingPosts from './components/trendingposts/TrendingPosts';
 import MyPortfolioDashboard from './components/myportfolio/MyPortfolioDashboard';
+import Tbot from './components/tradingbot/Tbot';
 
 function App() {
   let {user} = useContext(AuthContext)
@@ -46,6 +47,12 @@ function App() {
                 <Route path="/my-dashboard" element={
                   <PrivateRoute>
                     <MyPortfolioDashboard/>
+                  </PrivateRoute>
+                    }
+                />
+                 <Route path="/trading-bot" element={
+                  <PrivateRoute>
+                    <Tbot/>
                   </PrivateRoute>
                     }
                 />
