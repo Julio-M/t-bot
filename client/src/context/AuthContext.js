@@ -1,6 +1,7 @@
 import { createContext, useState, useEffect} from 'react'
 import { useNavigate } from "react-router-dom";
 import jwt_decode from "jwt-decode";
+import Cookies from 'js-cookie'
 
 const AuthContext = createContext()
 
@@ -21,6 +22,46 @@ export function AuthProvider ({children}) {
   const [assets,setAssets] = useState([])
   const [currAsset,setCurrAsset] = useState("AAPL")
   const [time_f,setTime_f] = useState(1455)
+
+  const newLogin = (data) => {
+    fetch(`http://localhost:8000/api/login/`, {
+        method: "POST",
+        credentials: 'include',
+        headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+        },
+        body: JSON.stringify(
+           data
+        ),
+    })
+    .then((r) => {
+     if (r.ok) {
+       console.log(r)
+       r.json()
+       .then((data) => {
+        setAuthToken(data.data)
+        setUser(jwt_decode(data.data.access))
+        Cookies.set("isLogged", {expires: 1} )
+        
+       })
+     } else {
+      r.json()
+      .then(err=>setErrors([...errors,err.detail]))
+      .then(()=>setIsLoading(false))
+    }
+ })
+   }
+
+   const readCookie = () => {
+    if(Cookies.get("isLogged")){
+        setUser(true)
+        navigate('/')
+    }else{
+        console.log(Cookies)
+    }
+  }
+
 
   const updateToken = () => {
    fetch(`http://localhost:8000/api/token/refresh/`, {
@@ -78,14 +119,18 @@ export function AuthProvider ({children}) {
     }
 
     const logoutUser = () => {
+      fetch('http://localhost:8000/api/token/logout')
       setAuthToken(null)
       setUser(null)
+      Cookies.remove('isLogged')
       localStorage.removeItem('authTokens')
       navigate('/login')
     }
 
     //get_positions
+    
     useEffect( () => {
+      readCookie()
       fetch(`http://localhost:8000/api/positions/`)
       .then( res => res.json())
       .then( data => setMyPositions(data))
@@ -121,7 +166,8 @@ export function AuthProvider ({children}) {
       assets:assets,
       setCurrAsset:setCurrAsset,
       currAsset:currAsset,
-      setTime_f:setTime_f
+      setTime_f:setTime_f,
+      newLogin:newLogin
     }
 
     useEffect( () => {

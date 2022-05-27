@@ -10,7 +10,7 @@ import { Fa500Px } from 'react-icons/fa';
 import {Link} from 'react-router-dom'
 
 function Login () {
-    let {loginUser,errors,setErrors,isLoading,setIsLoading} = useContext(AuthContext)
+    let {loginUser,errors,setErrors,newLogin,isLoading,setIsLoading} = useContext(AuthContext)
 
     const [userForm, setUserForm] = useState({
         username:'',
@@ -30,7 +30,8 @@ function Login () {
         e.preventDefault()
         setIsLoading(true)
         setErrors([])
-        loginUser(userForm)
+        // loginUser(userForm)
+        newLogin(userForm)
     }
 
     return (
