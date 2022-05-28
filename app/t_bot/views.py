@@ -154,7 +154,7 @@ class MartingaleTrader(object):
                     # Our last order should be removed
                     self.current_order = None
             elif event_type != 'new':
-                m1 = Bot_Data.create(bot=the_bot, t_bot_message=f'Unexpected order event type {event_type} received')
+                m1 = Bot_Data.objects.create(bot=the_bot, t_bot_message=f'Unexpected order event type {event_type} received')
                 m1.save()
 
         conn.subscribe_trade_updates(handle_trade_updates)
@@ -204,14 +204,14 @@ class MartingaleTrader(object):
         delta = target_qty - self.position
         if delta == 0:
             return
-        m2 = Bot_Data.create(bot=the_bot, t_bot_message=f'Ordering towards {target_qty}...')
+        m2 = Bot_Data.objects.create(bot=the_bot, t_bot_message=f'Ordering towards {target_qty}...')
         m2.save()
         try:
             if delta > 0:
                 buy_qty = delta
                 if self.position < 0:
                     buy_qty = min(abs(self.position), buy_qty)
-                m3 = Bot_Data.create(bot=the_bot,t_bot_message=f'Buying {buy_qty} shares.')
+                m3 = Bot_Data.objects.create(bot=the_bot,t_bot_message=f'Buying {buy_qty} shares.')
                 m3.save()
                 self.current_order = self.api.submit_order(
                     self.symbol, buy_qty, 'buy',
@@ -222,13 +222,14 @@ class MartingaleTrader(object):
                 if self.position > 0:
                     sell_qty = min(abs(self.position), sell_qty)
                 m4 = Bot_Data.create(bot=the_bot,t_bot_message=f'Selling {sell_qty} shares.')
+                m4 = Bot_Data.objects.create(bot=the_bot,t_bot_message=f'Selling {sell_qty} shares.')
                 m4.save()
                 self.current_order = self.api.submit_order(
                     self.symbol, sell_qty, 'sell',
                     'limit', 'day', self.last_price
                 )
         except Exception as e:
-            m5 = Bot_Data.create(bot=the_bot,t_bot_message=e)
+            m5 = Bot_Data.objects.create(bot=the_bot,t_bot_message=e)
             m5.save()
 
 @api_view(['POST'])

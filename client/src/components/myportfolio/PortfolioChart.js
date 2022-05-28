@@ -62,11 +62,11 @@ function PortfolioChart ({myPositions}) {
           bottom: 0,
         }}
       >
-        <CartesianGrid strokeDasharray="3 3" />
-        <XAxis dataKey="name" />
-        <YAxis />
+        <CartesianGrid strokeDasharray="3 3" horizontal={false} vertical={false} />
+        <XAxis dataKey="name" tick={false} axisLine={false}/>
+        <YAxis tick={false} axisLine={false}/>
         <Tooltip />
-        <Area type="monotone" dataKey="uv" stroke="#8884d8" fill="#8884d8" />
+        <Area type="monotone" dataKey="uv" stroke="#8884d8" fill="white" />
       </AreaChart>
     </ResponsiveContainer>
     );

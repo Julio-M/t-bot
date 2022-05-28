@@ -69,13 +69,18 @@ function MyPortfolioDashboard (props) {
                   </span>
                 </Grid>
                 <Grid zeroMinWidth item xs={12} sm={4}>
-                  <div>
+                  <div className='trading-assets'>
                   YO
                   </div>
                 </Grid>
-                <Grid zeroMinWidth item xs={12} sm={12}>
-                  <div>
+                <Grid zeroMinWidth item xs={12} sm={6}>
+                  <div className='portfolio-details'>
                   hello
+                  </div>
+                </Grid>
+                <Grid zeroMinWidth item xs={12} sm={6}>
+                  <div className='extra-data'>
+                    hello
                   </div>
                 </Grid>
             </Grid>
