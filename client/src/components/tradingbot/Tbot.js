@@ -42,9 +42,21 @@ function Tbot (props) {
     chatSocket.onmessage = (e) => {
       let data = JSON.parse(e.data)
       console.log('From use effect DATA:',data)
+      // if (message.length>=10) message.shift()
       setMessage([...message,data.content])
+      
   }
   },[])
+
+  useEffect( () => {
+    console.log('getmessages')
+    let interval = setInterval(() => {
+      fetch('http://localhost:8000/api/get-my-messages')
+      .then(res=>res.json())
+    }, 15000)
+    return () => clearInterval(interval)
+  },[])
+
 
   const handleClick =() => {
     console.log('click')
@@ -112,7 +124,7 @@ function Tbot (props) {
     },[])
 
   // const displayMessages = robomsg.map(m => <li key={m.id} className='msg-bot'>> {m.initial_buing_bower} @ {m.created}</li>)
-  const displayMessages = message.map(m => <li key={m.id} className='msg-bot'>T-bot says: {m}</li>)
+  const displayMessages = message.map(m => <li key={m} className='msg-bot'>T-bot says: {m}</li>)
 
   console.log(displayMessages)
 

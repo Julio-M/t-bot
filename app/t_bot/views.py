@@ -1,3 +1,4 @@
+from pyexpat.errors import messages
 from django.shortcuts import render
 import alpaca_trade_api as tradeapi
 from alpaca_trade_api.stream import Stream
@@ -20,6 +21,8 @@ users = User.objects
 def truncate(val, decimal_places):
     return int(val * 10**decimal_places) / 10**decimal_places
 
+def sendMessage():
+    print('IN SEND MESSSAGE',messages)
 
 # The MartingaleTrader bets that streaks of increases or decreases in a stock's
 # price are likely to break, and increases its bet each time it is wrong.
@@ -34,6 +37,11 @@ class MartingaleTrader(object):
 
         # The symbol we will be trading
         print('/////DATA//////',data)
+        async_to_sync(channel_layer.group_send)('events', {
+           'type': 'events.alarm',
+           'content': data
+        })
+
         self.symbol = data
 
         # How many seconds we will wait in between updating the streak values
@@ -97,9 +105,10 @@ class MartingaleTrader(object):
            'content': 'The market is {}'.format('open.' if clock.is_open else 'closed.')
         })
     
-    
     def start_trading(self):
         global the_bot
+        global messages
+        messages=[]
         the_bot = Tbot.objects.last()
         conn = Stream(
             self.key_id,
@@ -157,7 +166,9 @@ class MartingaleTrader(object):
             if event_type == 'fill' or event_type == 'partial_fill':
                 # Our position size has changed
                 self.position = int(data.position_qty)
-                print(f'New position size due to order fill: {self.position}')
+                msg3 = f'New position size due to order fill: {self.position}'
+                print(msg3)
+                messages.append(msg3)
                 if (event_type == 'fill' and self.current_order
                     and self.current_order.id == oid):
                     self.current_order = None
@@ -220,10 +231,9 @@ class MartingaleTrader(object):
         # Bot_Data.objects.create(bot=the_bot, t_bot_message=f'Ordering towards {target_qty}...')
         msg1=f'Ordering towards {target_qty}...'
         print(msg1)
-        async_to_sync(channel_layer.group_send)('events', {
-           'type': 'events.alarm',
-           'content':msg1
-        })
+        messages.append(msg1)
+        sendMessage()
+        # Bot_Data.objects.create(bot=the_bot,t_bot_message=msg1).save()
         try:
             if delta > 0:
                 buy_qty = delta
@@ -233,6 +243,7 @@ class MartingaleTrader(object):
                 # m3 = Bot_Data.objects.create(bot=the_bot,t_bot_message=f'Buying {buy_qty} shares.')
                 # m3.save()
                 print(msg)
+                messages.append(msg)
                 self.current_order = self.api.submit_order(
                     self.symbol, buy_qty, 'buy',
                     'limit', 'day', self.last_price
@@ -246,6 +257,7 @@ class MartingaleTrader(object):
                 # m4 = Bot_Data.objects.create(bot=the_bot,t_bot_message=f'Selling {sell_qty} shares.')
                 # m4.save()
                 print(msg)
+                messages.append(msg)
                 self.current_order = self.api.submit_order(
                     self.symbol, sell_qty, 'sell',
                     'limit', 'day', self.last_price
@@ -279,5 +291,11 @@ def get_bot_messages(request):
         return JsonResponse(serializer.data, safe=False)
 
 
-
-  
+@api_view(['GET'])
+def get_my_messages(request):
+    channel_layer = channels.layers.get_channel_layer()
+    async_to_sync(channel_layer.group_send)('events', {
+           'type': 'events.alarm',
+           'content': messages[-1]
+        })
+    return JsonResponse(messages,safe=False)
