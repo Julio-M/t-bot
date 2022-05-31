@@ -23,6 +23,7 @@ def truncate(val, decimal_places):
 
 def sendMessage():
     print('IN SEND MESSSAGE',messages)
+    get_my_messages()
 
 # The MartingaleTrader bets that streaks of increases or decreases in a stock's
 # price are likely to break, and increases its bet each time it is wrong.
@@ -169,6 +170,7 @@ class MartingaleTrader(object):
                 msg3 = f'New position size due to order fill: {self.position}'
                 print(msg3)
                 messages.append(msg3)
+                sendMessage()
                 if (event_type == 'fill' and self.current_order
                     and self.current_order.id == oid):
                     self.current_order = None
@@ -178,7 +180,10 @@ class MartingaleTrader(object):
                     self.current_order = None
             elif event_type != 'new':
                 # Bot_Data.objects.create(bot=the_bot, t_bot_message=f'Unexpected order event type {event_type} received').save()
-                print(f'Unexpected order event type {event_type} received')
+                msg6 = f'Unexpected order event type {event_type} received'
+                print(msg6)
+                messages.append(msg6)
+                sendMessage()
 
         conn.subscribe_trade_updates(handle_trade_updates)
 
@@ -220,7 +225,6 @@ class MartingaleTrader(object):
         self.equity = float(self.api.get_account().equity)
 
     def send_order(self, target_qty):
-        channel_layer = channels.layers.get_channel_layer()
         # We don't want to have two orders open at once
         if self.current_order is not None:
             self.api.cancel_order(self.current_order.id)
@@ -244,6 +248,7 @@ class MartingaleTrader(object):
                 # m3.save()
                 print(msg)
                 messages.append(msg)
+                sendMessage()
                 self.current_order = self.api.submit_order(
                     self.symbol, buy_qty, 'buy',
                     'limit', 'day', self.last_price
@@ -258,6 +263,7 @@ class MartingaleTrader(object):
                 # m4.save()
                 print(msg)
                 messages.append(msg)
+                sendMessage()
                 self.current_order = self.api.submit_order(
                     self.symbol, sell_qty, 'sell',
                     'limit', 'day', self.last_price

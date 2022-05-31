@@ -1,5 +1,5 @@
 .aregraph{
-  height: 60vh;
+  height: 50vh;
   width: 100%;
   margin-bottom: 4.5rem;
 }
@@ -11,8 +11,10 @@
 
 .portfolio-details{
   border-style: solid;
+  height: 100vh;
 }
 
 .extra-data{
   border-style: solid;
+  height: 100%;
 }

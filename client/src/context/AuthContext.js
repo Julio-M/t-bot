@@ -21,6 +21,8 @@ export function AuthProvider ({children}) {
   const [assets,setAssets] = useState([])
   const [currAsset,setCurrAsset] = useState("AAPL")
   const [time_f,setTime_f] = useState(1455)
+  const [portfolioData,setPortfolioData]= useState([])
+  const [period,setPeriod] = useState('1D')
 
   const updateToken = () => {
    fetch(`http://localhost:8000/api/token/refresh/`, {
@@ -109,6 +111,14 @@ export function AuthProvider ({children}) {
     .catch( error => console.log(error.message));
     },[])
 
+    //get portfolio
+    useEffect( () => {
+      fetch(`http://localhost:8000/api/get-portfolio/${period}`)
+      .then( res => res.json())
+      .then( data => setPortfolioData(data.data))
+      .catch( error => console.log(error.message));
+    },[period])
+
     let contextData = {
       loginUser:loginUser,
       logoutUser:logoutUser,
@@ -122,7 +132,9 @@ export function AuthProvider ({children}) {
       assets:assets,
       setCurrAsset:setCurrAsset,
       currAsset:currAsset,
-      setTime_f:setTime_f
+      setTime_f:setTime_f,
+      portfolioData:portfolioData,
+      setPeriod:setPeriod
     }
 
     useEffect( () => {

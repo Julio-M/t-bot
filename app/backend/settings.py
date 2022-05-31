@@ -47,7 +47,8 @@ INSTALLED_APPS = [
     'trscreen',
     'global_assets',
     'rest_framework_simplejwt.token_blacklist',
-    't_bot'
+    't_bot',
+    'portfolio'
 ]
 
 REST_FRAMEWORK = {

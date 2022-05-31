@@ -23,5 +23,6 @@ urlpatterns = [
     path('api/', include('accounts.urls')),
     path('api/', include('global_assets.urls')),
     path('api/', include('t_bot.urls')),
+    path('api/', include('portfolio.urls')),
     path('auth/',obtain_auth_token),
 ]

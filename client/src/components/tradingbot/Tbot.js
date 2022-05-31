@@ -48,14 +48,14 @@ function Tbot (props) {
   }
   },[])
 
-  useEffect( () => {
-    console.log('getmessages')
-    let interval = setInterval(() => {
-      fetch('http://localhost:8000/api/get-my-messages')
-      .then(res=>res.json())
-    }, 15000)
-    return () => clearInterval(interval)
-  },[])
+  // useEffect( () => {
+  //   console.log('getmessages')
+  //   let interval = setInterval(() => {
+  //     fetch('http://localhost:8000/api/get-my-messages')
+  //     .then(res=>res.json())
+  //   }, 15000)
+  //   return () => clearInterval(interval)
+  // },[])
 
 
   const handleClick =() => {
