@@ -82,8 +82,13 @@ class MartingaleTrader(object):
         self.margin_multiplier = float(account_info.multiplier)
         total_buying_power = self.margin_multiplier * self.equity
         if clock.is_open:
-            ins = Tbot.objects.create(user=current_user,initial_buing_bower =f'Initial total buying power = {total_buying_power}')
+            msg = f'Initial total buying power = {total_buying_power}'
+            ins = Tbot.objects.create(user=current_user,initial_buing_bower = msg)
             ins.save()
+            async_to_sync(channel_layer.group_send)('events', {
+           'type': 'events.alarm',
+           'content':msg
+        })
         else:
             print('The market is {}'.format('open.' if clock.is_open else 'closed.'))
             async_to_sync(channel_layer.group_send)('events', {

@@ -5,7 +5,7 @@ from .models import Asset
 class AssetSerializer(serializers.ModelSerializer):
     class Meta:
         model = Asset
-        fields = ('id','name', 'ticker')
+        fields = ('id','name', 'ticker','logo')
 
     # def create(self,validated_data):
     #     user = User.objects.create_user(**validated_data)
