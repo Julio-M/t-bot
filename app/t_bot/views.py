@@ -9,7 +9,7 @@ from django.contrib.auth import get_user_model
 from .models import Tbot,Bot_Data
 from .serializers import TbotSerializer,BotDataSerializer
 import channels.layers
-from asgiref.sync import async_to_sync
+from asgiref.sync import async_to_sync, sync_to_async
 
 User = get_user_model()
 users = User.objects
@@ -83,6 +83,7 @@ class MartingaleTrader(object):
         total_buying_power = self.margin_multiplier * self.equity
         if clock.is_open:
             msg = f'Initial total buying power = {total_buying_power}'
+            print(msg)
             ins = Tbot.objects.create(user=current_user,initial_buing_bower = msg)
             ins.save()
             async_to_sync(channel_layer.group_send)('events', {
@@ -165,8 +166,8 @@ class MartingaleTrader(object):
                     # Our last order should be removed
                     self.current_order = None
             elif event_type != 'new':
-                m1 = Bot_Data.objects.create(bot=the_bot, t_bot_message=f'Unexpected order event type {event_type} received')
-                m1.save()
+                # Bot_Data.objects.create(bot=the_bot, t_bot_message=f'Unexpected order event type {event_type} received').save()
+                print(f'Unexpected order event type {event_type} received')
 
         conn.subscribe_trade_updates(handle_trade_updates)
 
@@ -208,6 +209,7 @@ class MartingaleTrader(object):
         self.equity = float(self.api.get_account().equity)
 
     def send_order(self, target_qty):
+        channel_layer = channels.layers.get_channel_layer()
         # We don't want to have two orders open at once
         if self.current_order is not None:
             self.api.cancel_order(self.current_order.id)
@@ -215,15 +217,22 @@ class MartingaleTrader(object):
         delta = target_qty - self.position
         if delta == 0:
             return
-        m2 = Bot_Data.objects.create(bot=the_bot, t_bot_message=f'Ordering towards {target_qty}...')
-        m2.save()
+        # Bot_Data.objects.create(bot=the_bot, t_bot_message=f'Ordering towards {target_qty}...')
+        msg1=f'Ordering towards {target_qty}...'
+        print(msg1)
+        async_to_sync(channel_layer.group_send)('events', {
+           'type': 'events.alarm',
+           'content':msg1
+        })
         try:
             if delta > 0:
                 buy_qty = delta
                 if self.position < 0:
                     buy_qty = min(abs(self.position), buy_qty)
-                m3 = Bot_Data.objects.create(bot=the_bot,t_bot_message=f'Buying {buy_qty} shares.')
-                m3.save()
+                msg=f'Buying {buy_qty} shares.'
+                # m3 = Bot_Data.objects.create(bot=the_bot,t_bot_message=f'Buying {buy_qty} shares.')
+                # m3.save()
+                print(msg)
                 self.current_order = self.api.submit_order(
                     self.symbol, buy_qty, 'buy',
                     'limit', 'day', self.last_price
@@ -232,16 +241,17 @@ class MartingaleTrader(object):
                 sell_qty = abs(delta)
                 if self.position > 0:
                     sell_qty = min(abs(self.position), sell_qty)
-                m4 = Bot_Data.create(bot=the_bot,t_bot_message=f'Selling {sell_qty} shares.')
-                m4 = Bot_Data.objects.create(bot=the_bot,t_bot_message=f'Selling {sell_qty} shares.')
-                m4.save()
+                msg = f'Selling {sell_qty} shares.'
+                # m4 = Bot_Data.create(bot=the_bot,t_bot_message=f'Selling {sell_qty} shares.')
+                # m4 = Bot_Data.objects.create(bot=the_bot,t_bot_message=f'Selling {sell_qty} shares.')
+                # m4.save()
+                print(msg)
                 self.current_order = self.api.submit_order(
                     self.symbol, sell_qty, 'sell',
                     'limit', 'day', self.last_price
                 )
         except Exception as e:
-            m5 = Bot_Data.objects.create(bot=the_bot,t_bot_message=e)
-            m5.save()
+           print(e)
 
 @api_view(['POST'])
 def initiate_bot(request):

@@ -14,9 +14,13 @@ import TradingViewWidget from 'react-tradingview-widget';
 function Dashboard (props) {
   const [options,setOptions] = useState( {hour:'numeric'})
 
-  let {currAsset,setTime_f} = useContext(AuthContext)
+  let {currAsset,setTime_f,assets} = useContext(AuthContext)
 
   const [tview,setTview] = useState(false)
+
+  const displayLogo = assets.filter(a => a.ticker===currAsset)
+
+  console.log('logo',displayLogo)
 
   const handleClick = (e) => {
     let name = e.target.name
@@ -61,7 +65,7 @@ function Dashboard (props) {
                   <>
                     <span>
                     <div className='stock-logo'>
-                      <img className='s-logo' src='' alt='stock logo'/>
+                      <img className='s-logo' src={displayLogo.length>0?displayLogo[0].logo:"logo"} alt='stock logo'/>
                     </div>
                     <h3 className='stock-ticker'>{currAsset}</h3>
                   </span>

@@ -25,8 +25,7 @@ function MyStock (props) {
       sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
     >
       <TableCell  value={row.ticker} component="th" scope="row">
-      {<img value={row.ticker} className='asset-logo-pic' src={row.name} alt='logo'/> }
-        {row.id}
+      {<img value={row.ticker} className='asset-logo-pic' src={row.logo} alt='logo'/> }
       </TableCell>
       <TableCell value={row.ticker} align="right">{row.name}</TableCell>
       <TableCell value={row.ticker} align="right">{row.ticker}</TableCell>

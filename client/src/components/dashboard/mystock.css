@@ -10,3 +10,9 @@ tr.css-34nofg-MuiTableRow-root{
 .stock-cont{
   height: 100%;
 }
+
+.asset-logo-pic{
+  width: 30px;
+  height:30px;
+  border-radius: 100%;
+}

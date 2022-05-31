@@ -395,9 +395,8 @@ ul {
 .equity-amount{
   color: rgb(0, 0, 0);
   border-style: solid;
-  background-color: rgb(255, 255, 255);
   border-radius: 5%;
-  height:90%;
+  height:30%;
 }
 
 .por-info{
@@ -412,5 +411,19 @@ ul {
 .mini-bot-graph{
     height:90%;
   }
+
+.tbotset{
+  margin: auto;
+  width: 70%;
+  padding: 2rem;
+}
+
+.myError{
+  margin: auto;
+  width: 70%;
+  padding: 0rem;
+  font-family: 'Chakra Petch', sans-serif;
+  color: red;
+}
 
   /* CHANGE CSS FOR REALLY BIG SCREEN aka Presentation monitor */

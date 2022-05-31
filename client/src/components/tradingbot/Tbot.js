@@ -5,10 +5,51 @@ import Box from '@mui/material/Box';
 import { FaRobot } from 'react-icons/fa';
 import AuthContext from "../../context/AuthContext";
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
+import ThistoryTable from "./ThistoryTable";
+import Options from "./Options";
+import { ThemeProvider, createTheme } from '@mui/material/styles';
+import Settings from "./Settings";
+import Review from "./Review";
+
 
 
 
 function Tbot (props) {
+  let {user,assets} = useContext(AuthContext)
+
+  const [activeStep, setActiveStep] = useState(0);
+
+  const [mySettings, setMySettings] = useState({
+    'symbol':'',
+    'user_id':user.user_id
+  })
+
+  const [whichOption,setWhichOption] = useState(<Settings assets={assets} setMySettings={setMySettings} mySettings={mySettings}/>)
+
+
+  const darkTheme = createTheme({
+    palette: {
+      mode: 'dark',
+    },
+  });
+
+  const [message,setMessage] = useState([])
+  let url = `ws://localhost:8000/ws/socket-server/`
+
+  const chatSocket = new WebSocket(url)
+
+  useEffect( () => {
+    chatSocket.onmessage = (e) => {
+      let data = JSON.parse(e.data)
+      console.log('From use effect DATA:',data)
+      setMessage([...message,data.content])
+  }
+  },[])
+
+  const handleClick =() => {
+    console.log('click')
+    }
+
   const data = [
     {
       name: 'Page A',
@@ -54,7 +95,6 @@ function Tbot (props) {
     },
   ];
 
-    let {user} = useContext(AuthContext)
 
     console.log('from tbot',user)
     const arr = ['light x1','light x2','light x3','light x4','light x5','light x6','light x7','light x8','light x9']
@@ -71,13 +111,16 @@ function Tbot (props) {
      getRoboData()
     },[])
 
-  const displayMessages = robomsg.map(m => <li key={m.id} className='msg-bot'>> {m.initial_buing_bower} @ {m.created}</li>)
-  
+  // const displayMessages = robomsg.map(m => <li key={m.id} className='msg-bot'>> {m.initial_buing_bower} @ {m.created}</li>)
+  const displayMessages = message.map(m => <li key={m.id} className='msg-bot'>T-bot says: {m}</li>)
+
   console.log(displayMessages)
 
     const displayStars = arr.map(s=> <div className={s}></div>)
 
+
     return (
+      <ThemeProvider theme={darkTheme}>
         <div className='tbot-body'>
                   {displayStars}
         <Box className='dashboard' id='bot-dash'>
@@ -88,6 +131,10 @@ function Tbot (props) {
                     <h3 className='title-t-1'>T-bot</h3>
                     <p className='inst-p'>Hello {user.username}!</p> 
                     <p className='inst-p-2'>Here you can choose a trading strategy you wish T-bot to follow.</p>
+                    <Options mySettings={mySettings} activeStep={activeStep} setActiveStep={setActiveStep}/>
+                    <div className='tbotset'>
+                      {activeStep===0?<Settings assets={assets} setMySettings={setMySettings} mySettings={mySettings}/>:<Review mySettings={mySettings}/>}
+                    </div>
                   </div>
 
                 </div>
@@ -110,7 +157,7 @@ function Tbot (props) {
             <Grid zeroMinWidth item xs={12} sm={3}>
               <div className='portfolio-data'>
               <div className='equity-amount'>
-                <p className='por-info'>Insert additional info</p>
+                <ThistoryTable/>
                 </div>
               </div>
             </Grid>
@@ -145,6 +192,7 @@ function Tbot (props) {
           </Grid>
         </Box>
         </div>
+        </ThemeProvider>
     );
 }
 
