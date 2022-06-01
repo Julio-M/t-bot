@@ -15,10 +15,9 @@ import FormControl from '@mui/material/FormControl';
 import FormLabel from '@mui/material/FormLabel';
 import Button from '@mui/material/Button';
 
-function OrderHistory ({assets,myPositions}) {
+function OrderHistory ({assets,myPositions,setNewOrder,newOrder}) {
 
   const [formError,setFormError] = useState('')
-  const [newOrder,setNewOrder] = useState([])
 
   const [myOrder,setMyOrder] = useState({
     "order_type":"",

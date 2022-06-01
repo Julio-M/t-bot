@@ -40,7 +40,7 @@ function MyPortfolioDashboard (props) {
     .catch( error => console.log(error.message));
   },[])
 
-  let {myPositions,portfolioData,setPeriod,assets} = useContext(AuthContext)
+  let {myPositions,portfolioData,setPeriod,assets,setNewOrder,newOrder} = useContext(AuthContext)
 
 
   console.log('POSITIONS',myPositions)
@@ -89,7 +89,7 @@ function MyPortfolioDashboard (props) {
                 </Box>
                 <TabPanel className='por-info' value="1"><AccountInfo myAccount={myAccount} /></TabPanel>
                 <TabPanel className='por-info' value="2"><PortfolioInfo myPositions={myPositions}/></TabPanel>
-                <TabPanel className='por-info' value="3"><OrderHistory assets={assets} myPositions={myPositions}/></TabPanel>
+                <TabPanel className='por-info' value="3"><OrderHistory assets={assets} myPositions={myPositions} setNewOrder={setNewOrder} newOrder={newOrder}/></TabPanel>
               </TabContext>
               </Grid>
                 <Grid zeroMinWidth item xs={12} sm={9}>

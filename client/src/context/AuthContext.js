@@ -23,6 +23,15 @@ export function AuthProvider ({children}) {
   const [time_f,setTime_f] = useState(1455)
   const [portfolioData,setPortfolioData]= useState([])
   const [period,setPeriod] = useState('1D')
+  const [newOrder,setNewOrder] = useState([])
+
+  //getOrders
+  const getAllOrders = () => {
+    fetch(`http://localhost:8000/api/get-orders`)
+    .then( res => res.json())
+    .then( data => setNewOrder(data))
+    .catch( error => console.log(error.message));
+  }
 
   const updateToken = () => {
    fetch(`http://localhost:8000/api/token/refresh/`, {
@@ -93,6 +102,7 @@ export function AuthProvider ({children}) {
       .then( res => res.json())
       .then( data => setMyPositions(data))
       .catch( error => console.log(error.message));
+      getAllOrders()
     },[])
 
     //getLive data
@@ -134,7 +144,9 @@ export function AuthProvider ({children}) {
       currAsset:currAsset,
       setTime_f:setTime_f,
       portfolioData:portfolioData,
-      setPeriod:setPeriod
+      setPeriod:setPeriod,
+      setNewOrder:setNewOrder,
+      newOrder:newOrder
     }
 
     useEffect( () => {

@@ -75,3 +75,9 @@ def buy_sell_order(request):
     order_url ='https://paper-api.alpaca.markets/v2/orders'
     r = requests.get(order_url,headers=headers)
     return JsonResponse(r.json(),safe=False)
+
+@api_view(['GET'])
+def get_all_orders(request):
+  order_url ='https://paper-api.alpaca.markets/v2/orders'
+  r = requests.get(order_url,headers=headers)
+  return JsonResponse(r.json(),safe=False)
