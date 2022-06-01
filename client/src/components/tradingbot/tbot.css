@@ -324,6 +324,8 @@ transform: translate(95vw,90vh);
 .bot-init{
   height:65vh;
   border-style: solid;
+  border-width: 1px;
+  border-radius: 10px 10px 10px 10px;
 }
 
 .bot-log{
@@ -393,7 +395,6 @@ ul {
 
 .equity-amount{
   color: rgb(0, 0, 0);
-  border-style: solid;
   border-radius: 5%;
   height:30%;
 }

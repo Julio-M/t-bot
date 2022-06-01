@@ -8,10 +8,10 @@ function PortfolioChart ({myPositions,portfolioData}) {
 
 
     return (
-      <ResponsiveContainer width="100%" aspect={4.0/1.0}>
+      <ResponsiveContainer width="100%" aspect={4.0/2}>
       <AreaChart
         width={500}
-        height={400}
+        height={1000}
         data={portfolioData}
         margin={{
           top: 10,
@@ -25,7 +25,7 @@ function PortfolioChart ({myPositions,portfolioData}) {
         <XAxis dataKey="timestamp" tick={false} axisLine={false}/>
         <YAxis domain={['dataMin', 'dataMax']} tick={false} axisLine={false}/>
         <Tooltip />
-        <Area type="monotone" dataKey="equity" stroke="#8884d8" fill="white" />
+        <Area type="monotone" dataKey="equity" stroke="#8884d8" fill="#e6e6e6" />
       </AreaChart>
     </ResponsiveContainer>
     );

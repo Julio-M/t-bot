@@ -166,21 +166,21 @@ function Tbot (props) {
                   </div>
                 </div>
             </Grid>
-            <Grid zeroMinWidth item xs={12} sm={3}>
+            <Grid zeroMinWidth item xs={12} sm={6}>
               <div className='portfolio-data'>
               <div className='equity-amount'>
                 <ThistoryTable/>
                 </div>
               </div>
             </Grid>
-            <Grid zeroMinWidth item xs={12} sm={3}>
+            <Grid zeroMinWidth item xs={12} sm={6}>
               <div className='portfolio-data'>
               <div className='equity-amount'>
                 <p className='por-info'>Insert additional info</p>
                 </div>
               </div>
             </Grid>
-            <Grid zeroMinWidth item xs={12} sm={6}>
+            {/* <Grid zeroMinWidth item xs={12} sm={6}>
                 <div className='mini-bot-graph'>
                   <ResponsiveContainer width="100%" aspect={4.0/2}>
                       <AreaChart    
@@ -200,7 +200,7 @@ function Tbot (props) {
                       </AreaChart>
                   </ResponsiveContainer>
                 </div>
-            </Grid>
+            </Grid> */}
           </Grid>
         </Box>
         </div>

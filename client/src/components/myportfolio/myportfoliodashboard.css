@@ -1,20 +1,60 @@
-.aregraph{
-  height: 50vh;
+.dashboard-port{
+  position: fixed;
+  background-color: rgb(7, 7, 48);
+  padding:0;
+  margin:0;
+  top:0;
+  left:0;
   width: 100%;
-  margin-bottom: 4.5rem;
-}
-
-.trading-assets{
-  border-style: solid;
   height: 100%;
 }
 
-.portfolio-details{
-  border-style: solid;
-  height: 100vh;
+div.filters#fil-port{
+  background-color: rgb(89, 89, 147);
+  border-radius: 10px 10px 10px 10px;
 }
 
-.extra-data{
-  border-style: solid;
-  height: 100%;
+.side-panel{
+  margin-top: 15%;
+}
+
+.por-info{
+  overflow-y: hidden;
+  height: 70vh;
+}
+
+.graph-filt{
+  margin-top: 10%;
+}
+
+.graph-filt{
+  /* border-style: solid; */
+  border-width: 1px;
+  border-color: #a89797;
+  border-radius: 10px 10px 10px 10px;
+  -webkit-border-radius: 10px 10px 10px 10px;
+  -moz-border-radius: 10px 10px 10px 10px;
+}
+.side-panel{
+  margin-left: 1rem;
+}
+
+.graph-filt{
+  margin-right: 1rem;
+}
+
+.por-info{
+  color: white;
+}
+
+.MuiTableHead-root{
+  background-color: blue;
+}
+
+.css-1gw840t-MuiTableCell-root{
+  background-color:  #1976d2;
+}
+
+#cracked{
+  margin-top: 10rem;
 }

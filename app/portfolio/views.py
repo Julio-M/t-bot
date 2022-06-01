@@ -7,19 +7,18 @@ import pandas as pd
 from collections import defaultdict
 import json
 
+headers = {
+      "APCA-API-KEY-ID": config("ALP_AK"),
+      "APCA-API-SECRET-KEY": config("ALP_AS"),
+    }
+
 # Create your views here.
 @api_view(['GET'])
 def get_portfolio(request,period):
   url = f'https://paper-api.alpaca.markets/v2/account/portfolio/history?period={period}'
 
-  headers = {
-    "APCA-API-KEY-ID": config("ALP_AK"),
-    "APCA-API-SECRET-KEY": config("ALP_AS"),
-  }
-
   r = requests.get(url,headers=headers)
   l1 = []
-  equityArr =[]
   l2=[]
   i=0
   p=0
@@ -40,3 +39,10 @@ def get_portfolio(request,period):
   x = json.loads(data)
   
   return JsonResponse(x, safe=False)
+
+@api_view(['GET'])
+def get_account(request):
+  url = f'https://paper-api.alpaca.markets/v2/account'
+  r = requests.get(url,headers=headers)
+
+  return JsonResponse(r.json(), safe=False)
