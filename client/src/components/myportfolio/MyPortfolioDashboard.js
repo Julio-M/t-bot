@@ -43,6 +43,7 @@ function MyPortfolioDashboard (props) {
   let {myPositions,portfolioData,setPeriod} = useContext(AuthContext)
 
 
+  console.log('POSITIONS',myPositions)
 
   const handleClick = (e) => {
     let name = e.target.name
@@ -54,6 +55,7 @@ function MyPortfolioDashboard (props) {
         setPeriod('1D')
         break;
       case 'week':
+        setPeriod('1W')
         break;
       case 'month':
         setPeriod('1M')
@@ -82,11 +84,11 @@ function MyPortfolioDashboard (props) {
                   <TabList onChange={handleChange} aria-label="lab API tabs example">
                     <Tab className='details-por' label="Account Info" value="1" />
                     <Tab className='details-por' label="Portfolio" value="2" />
-                    <Tab className='details-por' label="Order History" value="3" />
+                    <Tab className='details-por' label="Order" value="3" />
                   </TabList>
                 </Box>
                 <TabPanel className='por-info' value="1"><AccountInfo myAccount={myAccount} /></TabPanel>
-                <TabPanel className='por-info' value="2"><PortfolioInfo/></TabPanel>
+                <TabPanel className='por-info' value="2"><PortfolioInfo myPositions={myPositions}/></TabPanel>
                 <TabPanel className='por-info' value="3"><OrderHistory/></TabPanel>
               </TabContext>
               </Grid>

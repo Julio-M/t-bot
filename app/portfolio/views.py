@@ -6,11 +6,13 @@ from django.http import JsonResponse
 import pandas as pd
 from collections import defaultdict
 import json
+import alpaca_trade_api as tradeapi
 
 headers = {
       "APCA-API-KEY-ID": config("ALP_AK"),
       "APCA-API-SECRET-KEY": config("ALP_AS"),
     }
+
 
 # Create your views here.
 @api_view(['GET'])
@@ -46,3 +48,30 @@ def get_account(request):
   r = requests.get(url,headers=headers)
 
   return JsonResponse(r.json(), safe=False)
+
+
+@api_view(['POST'])
+def buy_sell_order(request):
+    data=request.data
+    symbol=data['symbol']
+    side=data['order_type']
+    quantity = data['quantity']
+    order_type=data['order_type']
+    key_id = config("ALP_AK")
+    secret_key = config("ALP_AS")
+    base_url = 'https://paper-api.alpaca.markets'
+    api = tradeapi.REST(
+                key_id,
+                secret_key,
+                base_url
+            )
+    api.submit_order(
+    symbol=symbol,
+    qty=quantity,  # fractional shares
+    side=side,
+    type='market',
+    time_in_force='day',
+    )
+    order_url ='https://paper-api.alpaca.markets/v2/orders'
+    r = requests.get(order_url,headers=headers)
+    return JsonResponse(r.json(),safe=False)

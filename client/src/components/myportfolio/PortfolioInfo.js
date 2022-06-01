@@ -6,24 +6,24 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 
-function PortfolioInfo (props) {
+function PortfolioInfo ({myPositions}) {
 
-const displayInfo = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15].map(i => (
+const displayInfo = myPositions.map(i => (
   <TableRow key={i} hover role="checkbox">
     <TableCell>
-      Asset
+      {i.symbol}
       </TableCell>
       <TableCell>
-      Price
+      ${i.current_price}
       </TableCell>
       <TableCell>
-        Quantity
+        {i.qty}
       </TableCell>
       <TableCell>
-        Market Value
+        {i.market_value}
       </TableCell>
       <TableCell>
-        Total Profit
+        {i.exchange}
       </TableCell>
   </TableRow>
 ) )
@@ -47,7 +47,7 @@ const displayInfo = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15].map(i => (
                   Market Value
                 </TableCell>
                 <TableCell>
-                  Total Profit
+                  Exchange
                 </TableCell>
             </TableRow>
           </TableHead>
