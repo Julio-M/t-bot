@@ -11,6 +11,8 @@ from .models import Tbot,Bot_Data
 from .serializers import TbotSerializer,BotDataSerializer
 import channels.layers
 from asgiref.sync import async_to_sync, sync_to_async
+import requests
+import os
 
 User = get_user_model()
 users = User.objects
@@ -23,12 +25,14 @@ def truncate(val, decimal_places):
 
 def sendMessage():
     print('IN SEND MESSSAGE',messages)
-    get_my_messages()
+    url='http://localhost:8000/api/get-my-messages'
+    requests.get(url)
 
 # The MartingaleTrader bets that streaks of increases or decreases in a stock's
 # price are likely to break, and increases its bet each time it is wrong.
 class MartingaleTrader(object):
     def __init__(self,data,current_user,channel_layer):
+
         # API authentication keys can be taken from the Alpaca dashboard.
         # https://app.alpaca.markets/paper/dashboard/overview
         self.key_id = config("ALP_AK")
@@ -37,10 +41,11 @@ class MartingaleTrader(object):
         self.data_url = 'https://data.alpaca.markets'
 
         # The symbol we will be trading
+    
         print('/////DATA//////',data)
         async_to_sync(channel_layer.group_send)('events', {
-           'type': 'events.alarm',
-           'content': data
+        'type': 'events.alarm',
+        'content': data
         })
 
         self.symbol = data
@@ -96,14 +101,14 @@ class MartingaleTrader(object):
             ins = Tbot.objects.create(user=current_user,initial_buing_bower = msg)
             ins.save()
             async_to_sync(channel_layer.group_send)('events', {
-           'type': 'events.alarm',
-           'content':msg
+        'type': 'events.alarm',
+        'content':msg
         })
         else:
             print('The market is {}'.format('open.' if clock.is_open else 'closed.'))
             async_to_sync(channel_layer.group_send)('events', {
-           'type': 'events.alarm',
-           'content': 'The market is {}'.format('open.' if clock.is_open else 'closed.')
+        'type': 'events.alarm',
+        'content': 'The market is {}'.format('open.' if clock.is_open else 'closed.')
         })
     
     def start_trading(self):
@@ -271,16 +276,27 @@ class MartingaleTrader(object):
         except Exception as e:
            print(e)
 
-@api_view(['POST'])
+@api_view(['POST','GET'])
 def initiate_bot(request):
-  channel_layer = channels.layers.get_channel_layer()
-  data=request.data['symbol']
-  user_id = request.data['user_id']
-  current_user = users.get(id=user_id)
-  print('/////////',data)
-  print('/////////',current_user)
-  trader = MartingaleTrader(data,current_user,channel_layer)
-  trader.start_trading()
+  if request.method =='POST':
+    channel_layer = channels.layers.get_channel_layer()
+    data=request.data['symbol']
+    user_id = request.data['user_id']
+    current_user = users.get(id=user_id)
+    print('/////////',data)
+    print('/////////',current_user)
+    trader = MartingaleTrader(data,current_user,channel_layer)
+    trader.start_trading()
+  else:
+    channel_layer = channels.layers.get_channel_layer()
+    async_to_sync(channel_layer.group_send)('events', {
+           'type': 'events.alarm',
+           'content': 'Goodbye'
+        })
+    data='exit'
+    current_user=1
+    trader = MartingaleTrader(data,current_user,channel_layer)
+    print('Exited')
 
 @api_view(['GET'])
 def get_bot_data(request,user_id):

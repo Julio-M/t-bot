@@ -7,10 +7,10 @@ import './home.css'
 function Home (props) {
 
     return (
-        <Box className='register-page'>
+        <Box className='home'>
             <Grid container spacing={4}>
                 <Grid zeroMinWidth item xs={12} sm={6}>
-                Welcome
+                hello
                 </Grid>
                 <Grid zeroMinWidth item xs={12} sm={6}>
                     You are loggen in! 

@@ -6,6 +6,28 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 
 function Review ({mySettings}) {
+  const handleClick = (e) => {
+    console.log(mySettings)
+   fetch(`http://localhost:8000/api/initiate-bot`, {
+       method: "POST",
+       headers: {
+           "Content-Type": "application/json",
+           Accept: "application/json"
+       },
+       body: JSON.stringify(mySettings)
+   })
+   .then( res => res.json())
+   .then( data => console.log(data))
+   .catch( error => console.log(error.message));
+  } 
+
+  const handleStop = (e) => {
+    fetch(`http://localhost:8000/api/initiate-bot`)
+    .then( res => res.json())
+    .then( data => console.log(data))
+    .catch( error => console.log(error.message));
+  }
+
     return (
       <Card sx={{ minWidth: 275 }}>
       <CardContent>
@@ -20,7 +42,8 @@ function Review ({mySettings}) {
         </Typography>
       </CardContent>
       <CardActions>
-        <Button variant="contained" color="primary" size="small">Initialize T-bot</Button>
+        <Button onClick={handleClick} variant="contained" color="primary" size="small">Initialize T-bot</Button>
+        <Button onClick={handleStop} variant="contained" color="secondary" size="small">Stop T-bot</Button>
       </CardActions>
     </Card>
     );

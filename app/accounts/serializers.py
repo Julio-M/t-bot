@@ -5,11 +5,11 @@ from rest_framework.authtoken.models import Token
 from t_bot.serializers import TbotSerializer
 
 class UserSerializer(serializers.ModelSerializer):
-    tbot = TbotSerializer(many=True)
+    # tbot = TbotSerializer(many=True)
 
     class Meta:
         model = User
-        fields = ('id','username', 'password','email','tbot')
+        fields = ('id','username', 'password','email')
         extra_kwargs = {'password':{'write_only':True, 'required':True}}
 
     def create(self,validated_data):

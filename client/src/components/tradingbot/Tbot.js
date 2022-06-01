@@ -26,6 +26,7 @@ function Tbot (props) {
 
   const [whichOption,setWhichOption] = useState(<Settings assets={assets} setMySettings={setMySettings} mySettings={mySettings}/>)
 
+  const [allMessages,setAllMessages] = useState([])
 
   const darkTheme = createTheme({
     palette: {
@@ -33,7 +34,7 @@ function Tbot (props) {
     },
   });
 
-  const [message,setMessage] = useState([])
+  const [message,setMessage] = useState(`Hi ${user.username}`)
   let url = `ws://localhost:8000/ws/socket-server/`
 
   const chatSocket = new WebSocket(url)
@@ -43,10 +44,13 @@ function Tbot (props) {
       let data = JSON.parse(e.data)
       console.log('From use effect DATA:',data)
       // if (message.length>=10) message.shift()
-      setMessage([...message,data.content])
-      
+      setMessage(data.content)
   }
   },[])
+
+  useEffect( () => {
+    setAllMessages([...allMessages,message])
+  },[message])
 
   // useEffect( () => {
   //   console.log('getmessages')
@@ -61,51 +65,6 @@ function Tbot (props) {
   const handleClick =() => {
     console.log('click')
     }
-
-  const data = [
-    {
-      name: 'Page A',
-      uv: 4000,
-      pv: 2400,
-      amt: 2400,
-    },
-    {
-      name: 'Page B',
-      uv: 3000,
-      pv: 1398,
-      amt: 2210,
-    },
-    {
-      name: 'Page C',
-      uv: 2000,
-      pv: 9800,
-      amt: 2290,
-    },
-    {
-      name: 'Page D',
-      uv: 2780,
-      pv: 3908,
-      amt: 2000,
-    },
-    {
-      name: 'Page E',
-      uv: 1890,
-      pv: 4800,
-      amt: 2181,
-    },
-    {
-      name: 'Page F',
-      uv: 2390,
-      pv: 3800,
-      amt: 2500,
-    },
-    {
-      name: 'Page G',
-      uv: 3490,
-      pv: 4300,
-      amt: 2100,
-    },
-  ];
 
 
     console.log('from tbot',user)
@@ -124,9 +83,9 @@ function Tbot (props) {
     },[])
 
   // const displayMessages = robomsg.map(m => <li key={m.id} className='msg-bot'>> {m.initial_buing_bower} @ {m.created}</li>)
-  const displayMessages = message.map(m => <li key={m} className='msg-bot'>T-bot says: {m}</li>)
+  const displayMessages = allMessages.map(m => <li className='msg-bot'>T-bot says: {m}</li>)
 
-  console.log(displayMessages)
+  console.log('All',displayMessages)
 
     const displayStars = arr.map(s=> <div className={s}></div>)
 
@@ -166,7 +125,7 @@ function Tbot (props) {
                   </div>
                 </div>
             </Grid>
-            <Grid zeroMinWidth item xs={12} sm={6}>
+            {/* <Grid zeroMinWidth item xs={12} sm={6}>
               <div className='portfolio-data'>
               <div className='equity-amount'>
                 <ThistoryTable/>
@@ -179,7 +138,7 @@ function Tbot (props) {
                 <p className='por-info'>Insert additional info</p>
                 </div>
               </div>
-            </Grid>
+            </Grid> */}
             {/* <Grid zeroMinWidth item xs={12} sm={6}>
                 <div className='mini-bot-graph'>
                   <ResponsiveContainer width="100%" aspect={4.0/2}>
