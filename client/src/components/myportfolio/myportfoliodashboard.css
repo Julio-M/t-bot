@@ -51,3 +51,27 @@ div.filters#fil-port{
 #cracked{
   margin-top: 10rem;
 }
+
+#orders{
+  width: 50%;
+}
+
+.radiobtn{
+  margin-left: 30%;
+  margin-top: 1rem;
+}
+
+#form{
+  width: 100%;
+  color: white;
+}
+
+.quantity{
+  margin-top:2rem;
+  text-align: center;
+}
+
+.btn{
+  text-align: center;
+  margin-top: 2rem;
+}
