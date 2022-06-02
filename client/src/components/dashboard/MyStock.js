@@ -7,7 +7,11 @@ import TableContainer from '@mui/material/TableContainer';
 import TableRow from '@mui/material/TableRow';
 import AuthContext from "../../context/AuthContext";
 import { TableHead } from "@mui/material";
-
+import Accordion from '@mui/material/Accordion';
+import AccordionSummary from '@mui/material/AccordionSummary';
+import AccordionDetails from '@mui/material/AccordionDetails';
+import Typography from '@mui/material/Typography';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
 
 function MyStock (props) {
@@ -38,7 +42,9 @@ function MyStock (props) {
             <Table  sx={{ minWidth: "100%"}}>
             <TableHead>
                 <TableRow className='headers'>
-                  <TableCell align="right"></TableCell>
+                  <TableCell align="left">
+                    Logo
+                  </TableCell>
                   <TableCell align="right">Asset</TableCell>
                   <TableCell align="right">Ticker</TableCell>
                 </TableRow>

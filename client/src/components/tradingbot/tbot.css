@@ -323,8 +323,6 @@ transform: translate(95vw,90vh);
 
 .bot-init{
   height:65vh;
-  border-style: solid;
-  border-width: 1px;
   border-radius: 10px 10px 10px 10px;
 }
 
@@ -424,7 +422,7 @@ ul {
   width: 70%;
   padding: 0rem;
   font-family: 'Chakra Petch', sans-serif;
-  color: red;
+  color: rgb(255, 255, 255);
 }
 
   /* CHANGE CSS FOR REALLY BIG SCREEN aka Presentation monitor */

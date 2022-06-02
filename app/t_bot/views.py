@@ -275,6 +275,8 @@ class MartingaleTrader(object):
                 )
         except Exception as e:
            print(e)
+           messages.append(e.APIError[0])
+           sendMessage()
 
 @api_view(['POST','GET'])
 def initiate_bot(request):
@@ -287,16 +289,6 @@ def initiate_bot(request):
     print('/////////',current_user)
     trader = MartingaleTrader(data,current_user,channel_layer)
     trader.start_trading()
-  else:
-    channel_layer = channels.layers.get_channel_layer()
-    async_to_sync(channel_layer.group_send)('events', {
-           'type': 'events.alarm',
-           'content': 'Goodbye'
-        })
-    data='exit'
-    current_user=1
-    trader = MartingaleTrader(data,current_user,channel_layer)
-    print('Exited')
 
 @api_view(['GET'])
 def get_bot_data(request,user_id):

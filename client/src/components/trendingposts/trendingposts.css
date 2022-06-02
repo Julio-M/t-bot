@@ -1,4 +1,13 @@
-.t-posts{
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
+
+.query-trext-area{
+  text-align: center;
+  width: 100%
+}
+
+
+#demo-simple-select-label{
+  width: 100%;
 }
 
 
@@ -7,12 +16,13 @@
 }
 
 .feed{
-  margin-right: 20%;
+  margin-left: 1rem;
 }
 
 .controls{
   margin-top: 2rem;
-  margin-left: 25%;
+  margin-left: 1rem;
+
 }
 
 @media only screen and (max-width: 600px) {
@@ -20,3 +30,61 @@
     margin-left: 0;
   }
 }
+
+.query{
+  text-align: center;
+  margin-top: 5rem;
+  height: 60%;
+  margin-left: 2rem;
+  margin-right: 2rem;
+  border-radius: 30px;
+  border-width: 0.5px;
+  background-color: rgb(221, 232, 234);
+}
+
+#area{
+  width: 100%;
+}
+
+.my-card{
+  text-align: center;
+  margin-top: 2rem;
+  height: 100%;
+}
+
+.title{
+  text-align: center;
+  margin-top: 5rem;
+  font-family: 'Bebas Neue', cursive;
+  font-size: 50px;
+
+}
+
+.parag{
+  margin-top: 2rem;
+  font-family: 'Roboto', sans-serif;
+  color: rgb(68, 62, 62);
+  margin-left: 10%;
+  margin-right: 10%;
+  margin-bottom: 2rem;
+}
+
+.s-btn{
+  margin-top: 2rem;
+}
+
+.query#s-table{
+  background-color: rgb(83, 153, 210);
+}
+
+
+.table-res{
+  height: 70%;
+}
+
+.form-sent{
+  display: inline-block;
+  height: 100%;
+  text-align: center;
+}
+

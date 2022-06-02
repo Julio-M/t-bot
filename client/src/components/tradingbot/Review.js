@@ -31,19 +31,19 @@ function Review ({mySettings}) {
     return (
       <Card sx={{ minWidth: 275 }}>
       <CardContent>
-      <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
+      <Typography sx={{ fontSize: 35 }} color="text.secondary" gutterBottom>
           All set!
         </Typography>
-        <Typography sx={{ fontSize: 10 }} color="text.secondary">
+        <Typography sx={{ fontSize: 20 }} color="text.secondary">
           Press the "Initialize" button below or go back to choose a different asset.
         </Typography>
-        <Typography variant="body1">
+        <Typography variant="body1" sx={{ fontSize: 40 }}>
           Current selection: {mySettings.symbol}
         </Typography>
       </CardContent>
       <CardActions>
         <Button onClick={handleClick} variant="contained" color="primary" size="small">Initialize T-bot</Button>
-        <Button onClick={handleStop} variant="contained" color="secondary" size="small">Stop T-bot</Button>
+        {/* <Button onClick={handleStop} variant="contained" color="secondary" size="small">Stop T-bot</Button> */}
       </CardActions>
     </Card>
     );
