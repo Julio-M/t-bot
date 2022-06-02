@@ -5,6 +5,9 @@ from django.shortcuts import render
 # Create your views here.
 from decouple import config
 
+import channels.layers
+from asgiref.sync import async_to_sync, sync_to_async
+
 # Import Libraries
 from textblob import TextBlob
 import sys
@@ -63,6 +66,11 @@ def SentimentAnalysis(keyword,amount):
     for tweet in tweets:
 
         print(tweet.text)
+        channel_layer = channels.layers.get_channel_layer()
+        async_to_sync(channel_layer.group_send)('events', {
+        'type': 'tweets',
+        'content': tweet.text
+        })
         tweet_list.append(tweet.text)
         analysis = TextBlob(tweet.text)
         score = SentimentIntensityAnalyzer().polarity_scores(tweet.text)

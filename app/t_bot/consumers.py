@@ -34,3 +34,12 @@ class ChatConsumer(JsonWebsocketConsumer):
             'content': event['content']
         }
     )
+
+  def tweets(self, event):
+    print('inside EventConsumer events_alarm()')
+    self.send_json(
+        {
+            'type': 'tweets',
+            'content': event['content']
+        }
+    )

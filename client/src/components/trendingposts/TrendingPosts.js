@@ -12,6 +12,7 @@ import CircularStatic from "./CircularStatic";
 import Overview from "./Overview";
 
 
+
 function TrendingPosts (props) {
 
   const [formData,setFormData] = useState(
@@ -20,6 +21,8 @@ function TrendingPosts (props) {
       "amount":0
     }
   )
+
+  const [tmessage,setTmessage] = useState([])
 
   const [analysis,setAnalysis] = useState({})
   const [isLoading,setIsLoading] = useState(false)
@@ -48,6 +51,21 @@ function TrendingPosts (props) {
     setFormData({...formData,[name]:value})
 
   }
+
+  let url = `ws://localhost:8000/ws/socket-server/`
+
+  const chatSocket = new WebSocket(url)
+
+  useEffect( () => {
+    chatSocket.onmessage = (e) => {
+      let data = JSON.parse(e.data)
+      console.log('From use effect DATA:',data)
+      // if (message.length>=10) message.shift()
+      if(data.type==='tweets'){
+        setTmessage([...tmessage,data.content])
+      }
+  }
+  },[])
 
   const handleSubmit = (e) =>{
    e.preventDefault()
@@ -135,7 +153,7 @@ function TrendingPosts (props) {
                   <p style={{color:'blue'}}>Analysis in progress......</p>
                   </>
                   }
-                  {isLoading&&<Overview/>}
+                  {isLoading&&<Overview tmessage={tmessage}/>}
                 </div>
               </Grid>
           </Grid>
