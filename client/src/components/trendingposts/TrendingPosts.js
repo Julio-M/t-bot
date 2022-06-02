@@ -143,17 +143,18 @@ function TrendingPosts (props) {
                 </div>
               </Grid>
               <Grid zeroMinWidth item xs={12} sm={4}>
-                <div className="table-res">
-                  <Results analysis={analysis} setEmoji={setEmoji} emoji={emoji}/>
-                </div>
-                <div className="loading">
-                  {isLoading&&
-                  <>
-                  <CircularStatic/>
-                  <p style={{color:'blue'}}>Analysis in progress......</p>
-                  </>
-                  }
-                  {isLoading&&<Overview tmessage={tmessage}/>}
+              <div className='the-res'>
+                  <div className="table-res">
+                    <Results analysis={analysis} setEmoji={setEmoji} emoji={emoji}/>
+                  </div>
+                  <div className="loading">
+                    {isLoading&&
+                    <div className='l-bar'>
+                    <CircularStatic/>
+                    </div>
+                    }
+                    {isLoading&&<Overview tmessage={tmessage}/>}
+                  </div>
                 </div>
               </Grid>
           </Grid>

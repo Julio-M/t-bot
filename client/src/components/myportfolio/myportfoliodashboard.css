@@ -15,7 +15,7 @@ div.filters#fil-port{
 }
 
 .side-panel{
-  margin-top: 15%;
+  margin-top: 20%;
 }
 
 .por-info{
@@ -50,10 +50,6 @@ div.filters#fil-port{
 
 #cracked{
   margin-top: 10rem;
-}
-
-#orders{
-  width: 50%;
 }
 
 .radiobtn{

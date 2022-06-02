@@ -77,10 +77,17 @@
   background-color: rgb(83, 153, 210);
 }
 
+.the-re{
+  width: 100%;
+  margin-right: 20rem;
+  border-style: solid;
+}
 
 .table-res{
   height: 70%;
+  margin-right: 2rem;
 }
+
 
 .form-sent{
   display: inline-block;
@@ -89,8 +96,13 @@
 }
 
 .loading{
-  margin-top: -20rem;
   text-align: center;
   width: 100%;
-  height: 100%
+  height: 100%;
+}
+
+.l-bar{
+  margin-top: 10rem;
+  margin-bottom: 2rem;
+  text-align: center;
 }

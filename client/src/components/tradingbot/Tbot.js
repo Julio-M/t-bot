@@ -44,7 +44,9 @@ function Tbot (props) {
       let data = JSON.parse(e.data)
       console.log('From use effect DATA:',data)
       // if (message.length>=10) message.shift()
-      setMessage(data.content)
+      if(data.type==='events.alarm'){
+        setMessage(data.content)
+      }
   }
   },[])
 

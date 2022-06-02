@@ -1,0 +1,20 @@
+.home{
+  background:linear-gradient(0deg, rgba(248, 244, 244, 0.6), rgba(56, 6, 78, 0.6)),url("https://coolbackgrounds.io/images/backgrounds/index/compute-ea4c57a4.png");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  z-index: -1000;
+}
+
+.w-msg{
+  color: white;
+  padding: 70px 0;
+  text-align: center;
+  font-size: 100px;
+  font-family: 'Orbitron', sans-serif;
+}
+
+.r-img{
+  padding: 5px 0;
+  text-align: center;
+}
