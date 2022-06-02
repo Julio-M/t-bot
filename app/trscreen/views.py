@@ -47,7 +47,9 @@ def SentimentAnalysis(keyword,amount):
 
     keyword = keyword
     noOfTweet = amount
-    tweets = client.search_recent_tweets(keyword, max_results=noOfTweet)
+    tweets = tweepy.Paginator(client.search_recent_tweets, query=keyword,max_results=100).flatten(limit=int(amount))
+    # tweets = client.search_recent_tweets(keyword, max_results=noOfTweet)
+    print('/////',tweets)
 
     positive = 0
     negative = 0
@@ -58,7 +60,7 @@ def SentimentAnalysis(keyword,amount):
     negative_list = []
     positive_list = []
 
-    for tweet in tweets.data:
+    for tweet in tweets:
 
         print(tweet.text)
         tweet_list.append(tweet.text)
@@ -95,13 +97,13 @@ def SentimentAnalysis(keyword,amount):
     negative_list = pd.DataFrame(negative_list)
     positive_list = pd.DataFrame(positive_list)
     print('total number:', len(tweet_list))
-    obj['total number:']=len(tweet_list)
+    obj['total:']=len(tweet_list)
     print('positive number:', len(positive_list))
-    obj['positive number:']=len(positive_list)
+    obj['positive:']=len(positive_list)
     print('negative number:', len(negative_list))
-    obj['negative number:']=len(negative_list)
+    obj['negative:']=len(negative_list)
     print('neutral number:', len(neutral_list))
-    obj['neutral number:']=len(neutral_list)
+    obj['neutral:']=len(neutral_list)
 
     tweet_list.drop_duplicates(inplace=True)
 
@@ -142,18 +144,6 @@ def SentimentAnalysis(keyword,amount):
             tw_list.loc[index, 'compound'] = comp
             tw_list.head(10)
 
-
-    # Creating new data frames for all sentiments (positive, negative and neutral)
-    tw_list_negative = tw_list[tw_list['sentiment'] == 'negative']
-    tw_list_positive = tw_list[tw_list['sentiment'] == 'positive']
-    tw_list_neutral = tw_list[tw_list['sentiment'] == 'neutral']
-
-
-    def count_values_in_column(data, feature):
-        total = data.loc[:, feature].value_counts(dropna=False)
-        percentage = round(data.loc[:, feature].value_counts(
-            dropna=False, normalize=True)*100, 2)
-        return pd.concat([total, percentage], axis=1, keys=['Total', 'Percentage'])
 
 @api_view(['POST'])
 def initiate_sentiment_analysis(request):

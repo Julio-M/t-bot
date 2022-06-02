@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -6,24 +6,37 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 
-function Results (props) {
+function Results ({analysis,emoji,setEmoji}) {
 
-const displayInfo = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15].map(i => (
+
+
+
+useEffect( () => {
+ if(analysis["negative:"]>analysis["positive:"]){
+   setEmoji('😱')
+ } else if(analysis["neutral:"]>analysis["positive:"]&&analysis["neutral:"]>analysis["negative:"]){
+   setEmoji('😐')
+ } else if(analysis["neutral:"]<analysis["positive:"]&&analysis["positive:"]>analysis["negative:"]){
+   setEmoji('🤩')
+ }
+},[analysis])
+
+const displayInfo = [0].map(i => (
   <TableRow key={i} hover role="checkbox">
       <TableCell key={i}>
-       Index
+        {analysis["total:"]}
       </TableCell>
       <TableCell>
-        Result
+        { analysis["positive:"]}
       </TableCell>
       <TableCell>
-      1
+        {analysis["negative:"]}
       </TableCell>
       <TableCell>
-      1
+        {analysis["neutral:"]}
       </TableCell>
       <TableCell>
-      1
+      {emoji}
       </TableCell>
   </TableRow>
 ) )

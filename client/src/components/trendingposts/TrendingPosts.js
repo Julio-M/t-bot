@@ -8,9 +8,23 @@ import TextField from '@mui/material/TextField';
 import Autocomplete from '@mui/material/Autocomplete';
 import Button from '@mui/material/Button';
 import Results from "./Results";
+import CircularStatic from "./CircularStatic";
+import Overview from "./Overview";
 
 
 function TrendingPosts (props) {
+
+  const [formData,setFormData] = useState(
+    {
+      "keyword":"",
+      "amount":0
+    }
+  )
+
+  const [analysis,setAnalysis] = useState({})
+  const [isLoading,setIsLoading] = useState(false)
+  const [emoji,setEmoji] = useState('🧐')
+
   const stockTweets = ['MarketWatch','Stocktwits','paulkrugman','EIAgov','RedDogT3','zerohedge','alaidi','forexcrunch','DailyFXTeam','PeterLBrandt','elerianm', 'Ralph_Acampora','jimcramer']
 
   const tweetSelect = stockTweets.map(el => el.toUpperCase())
@@ -25,6 +39,36 @@ function TrendingPosts (props) {
     theme='light'
     />  
     )
+
+  const handleFormChange = (e) => {
+    console.log(e.target.name)
+    const name = e.target.name
+    let value = e.target.value
+
+    setFormData({...formData,[name]:value})
+
+  }
+
+  const handleSubmit = (e) =>{
+   e.preventDefault()
+   setIsLoading(!isLoading)
+   fetch(`http://localhost:8000/api/initiate-sentiment`, {
+       method: "POST",
+       headers: {
+           "Content-Type": "application/json",
+           Accept: "application/json"
+       },
+       body: JSON.stringify(
+         formData
+       )
+   })
+   .then( res => res.json())
+   .then( data => {
+     setAnalysis(data)
+     setIsLoading(false)
+    })
+   .catch( error => console.log(error.message));
+  }
 
   const handleChange = (e) => {
     let value = e.target.textContent
@@ -71,40 +115,30 @@ function TrendingPosts (props) {
               <div className='form-sent'>
                 <div className='title'>Sentiment Analysis</div>
                     <p className='parag'>Scrape data from twitter using Tweepy and perform sentiment analysis using the TextBlob object. The output will be the number of positive, negative and neutral tweets!</p>
-                    <form className='sent-form'>
-                      <TextField id="area" sx={{'width':'30%'}} label="Query" variant="standard" />
-                      <TextField id="area count" sx={{'width':'30%', 'marginLeft':'2rem'}} label="Number of Tweets" type='number' variant="standard" />
+                    <form onSubmit={handleSubmit} className='sent-form'>
+                      <TextField name='keyword' id="area" onChange={handleFormChange} sx={{'width':'30%'}} label="Query" variant="standard" value={formData.keyword}/>
+                      <TextField name='amount' id="area count" onChange={handleFormChange}  sx={{'width':'30%', 'marginLeft':'2rem'}} label="Number of Tweets" type='number' variant="standard" value={formData.amount}/>
                       <div className='s-btn'>
-                      <Button id='a-btn' variant="contained" color="primary" size="small">Begin analysis</Button>
+                      <Button id='a-btn' variant="contained" color="primary" size="small" type='submit'>Begin analysis</Button>
                       </div>
                     </form>
                 </div>
               </Grid>
               <Grid zeroMinWidth item xs={12} sm={4}>
                 <div className="table-res">
-                  <Results/>
+                  <Results analysis={analysis} setEmoji={setEmoji} emoji={emoji}/>
+                </div>
+                <div className="loading">
+                  {isLoading&&
+                  <>
+                  <CircularStatic/>
+                  <p style={{color:'blue'}}>Analysis in progress......</p>
+                  </>
+                  }
+                  {isLoading&&<Overview/>}
                 </div>
               </Grid>
           </Grid>
-          {/* <Grid zeroMinWidth item xs={12} sm={4}>
-              <div className='feed'>
-              {whichPost}
-              </div>
-            </Grid>
-          <Grid className='query' zeroMinWidth item xs={12} sm={4} >
-                  <div className='title'>Sentiment Analysis</div>
-                  <p className='parag'>Scrape data from twitter using Tweepy and perform sentiment analysis using the TextBlob object. The output will be the number of positive, negative and neutral tweets!</p>
-                  <form className='sent-form'>
-                    <TextField id="area" sx={{'width':'30%'}} label="Query" variant="standard" />
-                    <TextField id="area count" sx={{'width':'30%', 'marginLeft':'2rem'}} label="Number of Tweets" type='number' variant="standard" />
-                    <div className='s-btn'>
-                    <Button id='a-btn' variant="contained" color="primary" size="small">Begin analysis</Button>
-                    </div>
-                  </form>
-                </Grid>
-                <Grid className='query' id='s-table' zeroMinWidth item xs={12} sm={4} >
-                    <Results/>
-                </Grid> */}
         </Box>
     );
 }
