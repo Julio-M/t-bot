@@ -1,5 +1,4 @@
 from pyexpat.errors import messages
-from django.shortcuts import render
 import alpaca_trade_api as tradeapi
 from alpaca_trade_api.stream import Stream
 import datetime
@@ -10,9 +9,8 @@ from django.contrib.auth import get_user_model
 from .models import Tbot,Bot_Data
 from .serializers import TbotSerializer,BotDataSerializer
 import channels.layers
-from asgiref.sync import async_to_sync, sync_to_async
+from asgiref.sync import async_to_sync
 import requests
-import os
 
 User = get_user_model()
 users = User.objects

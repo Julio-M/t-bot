@@ -20,7 +20,7 @@ div.filters#fil-port{
 
 .por-info{
   overflow-y: hidden;
-  height: 70vh;
+  height: 100%;
 }
 
 .graph-filt{
@@ -49,7 +49,7 @@ div.filters#fil-port{
 
 
 #cracked{
-  margin-top: 10rem;
+  margin-top: 2rem;
 }
 
 .radiobtn{

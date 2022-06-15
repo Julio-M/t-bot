@@ -132,7 +132,7 @@ function TrendingPosts (props) {
               <Grid zeroMinWidth item xs={12} sm={4}>
               <div className='form-sent'>
                 <div className='title'>Sentiment Analysis</div>
-                    <p className='parag'>Scrape data from twitter using Tweepy and perform sentiment analysis using the TextBlob object. The output will be the number of positive, negative and neutral tweets!</p>
+                    <p className='parag'>Scrape data from twitter using Tweepy and perform sentiment analysis using Vader. The output will be the number of positive, negative and neutral tweets!</p>
                     <form onSubmit={handleSubmit} className='sent-form'>
                       <TextField name='keyword' id="area" onChange={handleFormChange} sx={{'width':'30%'}} label="Query" variant="standard" value={formData.keyword}/>
                       <TextField name='amount' id="area count" onChange={handleFormChange}  sx={{'width':'30%', 'marginLeft':'2rem'}} label="Number of Tweets" type='number' variant="standard" value={formData.amount}/>
